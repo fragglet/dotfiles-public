@@ -1,0 +1,5 @@
+# Mutt configuration that makes it behave like mail(1)
+set mbox_type=mbox
+set mbox="~/mbox"
+set folder="~"
+set move=yes

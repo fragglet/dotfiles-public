@@ -1,0 +1,26 @@
+# This is Git's per-user configuration file.
+[user]
+# Please adapt and uncomment the following lines:
+name = Simon Howard
+email = fraggle@soulsphere.org
+[init]
+	defaultBranch = trunk
+[diff]
+	colorMovedWS = ignore-all-space
+	colorMoved = true
+[oh-my-zsh]
+	hide-dirty = 1
+[merge]
+	conflictStyle = diff3
+
+[diff "lesspipe"]
+        textconv = lesspipe.sh
+[core]
+        attributesfile = ~/.gitattributes
+[alias]
+	grog = log --graph --abbrev-commit --decorate --all --format=format:\"%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(dim white) - %an%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n %C(white)%s%C(reset)\"
+        diffc = diff --cached
+        restores = restore --staged
+        statusf = status --untracked-files=no
+        logs = log --stat
+        logp = log -p

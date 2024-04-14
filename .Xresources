@@ -1,0 +1,114 @@
+*background:              #cccccc
+*foreground:              #000000
+
+rxvt*background:              #000000
+rxvt*foreground:              #eeeeee
+XTerm*background:              #000000
+XTerm*foreground:              #eeeeee
+UXTerm*background:              #000000
+UXTerm*foreground:              #eeeeee
+
+!================================
+! tango theme
+!================================
+
+*color0:                  #2e3436
+*color1:                  #cc0000
+*color2:                  #4e9a06
+*color3:                  #c4a000
+*color4:                  #3465a4
+*color5:                  #75507b
+*color6:                  #06989a
+*color7:                  #d3d7cf
+*color8:                  #555753
+*color9:                  #ef2929
+*color10:                 #8ae234
+*color11:                 #fce94f
+*color12:                 #729fcf
+*color13:                 #ad7fa8
+*color14:                 #34e2e2
+*color15:                 #eeeeec
+
+xclient*Buttons.foreground: blue
+
+xcalc*geometry:                        300x450
+xcalc.ti.bevel.background:             #111111
+xcalc.ti.bevel.screen.background:      #000000
+xcalc.ti.bevel.screen.DEG.background:  #000000
+xcalc.ti.bevel.screen.DEG.foreground:  LightSeaGreen
+xcalc.ti.bevel.screen.GRAD.background: #000000
+xcalc.ti.bevel.screen.GRAD.foreground: LightSeaGreen
+xcalc.ti.bevel.screen.RAD.background:  #000000
+xcalc.ti.bevel.screen.RAD.foreground:  LightSeaGreen
+xcalc.ti.bevel.screen.INV.background:  #000000
+xcalc.ti.bevel.screen.INV.foreground:  Red
+xcalc.ti.bevel.screen.LCD.background:  #000000
+xcalc.ti.bevel.screen.LCD.foreground:  LightSeaGreen
+xcalc.ti.bevel.screen.LCD.shadowWidth: 0
+xcalc.ti.bevel.screen.M.background:    #000000
+xcalc.ti.bevel.screen.M.foreground:    LightSeaGreen
+xcalc.ti.bevel.screen.P.background:    #000000
+xcalc.ti.bevel.screen.P.foreground:    Yellow
+xcalc.ti.Command.foreground:  White
+xcalc.ti.Command.background:  #777777
+xcalc.ti.button5.background:  Orange3
+xcalc.ti.button19.background: #611161
+xcalc.ti.button18.background: #611161
+xcalc.ti.button20.background: #611111
+xcalc.ti.button20.label:      /
+xcalc.ti.button25.background: #722222
+xcalc.ti.button30.background: #833333
+xcalc.ti.button35.background: #944444
+xcalc.ti.button40.background: #a55555
+xcalc.ti.button22.background: #222262
+xcalc.ti.button23.background: #222262
+xcalc.ti.button24.background: #222272
+xcalc.ti.button27.background: #333373
+xcalc.ti.button28.background: #333373
+xcalc.ti.button29.background: #333373
+xcalc.ti.button32.background: #444484
+xcalc.ti.button33.background: #444484
+xcalc.ti.button34.background: #444484
+xcalc.ti.button37.background: #555595
+xcalc.ti.button38.background: #555595
+xcalc.ti.button39.background: #555595
+XCalc*Cursor:                 hand2
+XCalc*ShapeStyle:             rectangle
+
+! No tiny dialogs
+Xmessage*nearMouse: TRUE
+Xmessage*geometry: 400x150
+
+! 3d look:
+*Command.internalWidth:         5
+*Command.internalHeight:        3
+*Command.borderColor:           gray40
+*Command.shapeStyle:            Rectangle
+*Command.displayList:\
+foreground      gray60;\
+lines           1,-1,-1,-1,-1,1;\
+foreground      gray90;\
+lines           -1,0,0,0,0,-1
+
+*SimpleMenu.internalWidth:         5
+*SimpleMenu.internalHeight:        3
+*SimpleMenu.borderColor:           gray40
+*SimpleMenu.shapeStyle:            Rectangle
+*SimpleMenu.displayList:\
+foreground      gray60;\
+lines           1,-1,-1,-1,-1,1;\
+foreground      gray90;\
+lines           -1,0,0,0,0,-1
+
+*MenuButton.internalWidth:         5
+*MenuButton.internalHeight:        3
+*MenuButton.borderColor:           gray40
+*MenuButton.shapeStyle:            Rectangle
+*MenuButton.displayList:\
+foreground      gray60;\
+lines           1,-1,-1,-1,-1,1;\
+foreground      gray90;\
+lines           -1,0,0,0,0,-1
+
+! vim: ai:si:et:ts=4:sw=4:ft=xdefaults:
+

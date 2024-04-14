@@ -1,0 +1,21 @@
+
+[Default Applications]
+text/plain=vim.desktop
+text/markdown=vim.desktop
+text/english=vim.desktop
+text/x-makefile=vim.desktop
+text/x-go=vim.desktop
+text/x-python=vim.desktop
+text/x-c++hdr=vim.desktop
+text/x-c++src=vim.desktop
+text/x-chdr=vim.desktop
+text/x-csrc=vim.desktop
+text/x-java=vim.desktop
+text/x-moc=vim.desktop
+text/x-tex=vim.desktop
+application/x-ruby=vim.desktop
+application/x-shellscript=vim.desktop
+text/x-c=vim.desktop
+text/x-c++=vim.desktop
+
+application/x-doom-wad=eureka.desktop
