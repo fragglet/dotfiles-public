@@ -60,7 +60,7 @@
 
   [config] (Configuration)
   [submenu] (Styles) {Choose a style...}
-    [stylesdir] (/home/fraggle/.blackbox)
+    [stylesdir] (~/.blackbox)
     [stylesdir] (/usr/share/blackbox/styles)
     [stylesdir] (/usr/local/share/blackbox/styles)
     [stylesdir] (/usr/pkg/share/blackbox/styles)

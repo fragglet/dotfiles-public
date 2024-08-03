@@ -73,6 +73,10 @@ zstyle ':omz:update' mode disabled  # disable automatic updates
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
+case "$-" in *i*)
+    . $HOME/.bourneshrc.sh
+    ;;
+esac
 
 # User configuration
 
@@ -99,36 +103,3 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-
-PATH="$HOME/.local/bin:$PATH:/sbin"
-
-# good for SDL over remote X:
-if [ "$(uname -o)" != Darwin ] && [ "${DISPLAY:-no-x}" != no-x ]; then
-    export SDL_VIDEODRIVER=x11
-fi
-if [ "${SSH_CLIENT:-none}" != none ]; then
-    export SDL_RENDER_DRIVER=opengl SDL_RENDER_VSYNC=0 SDL_AUDIODRIVER=dummy
-fi
-
-export DOOMWADDIR=~/doom/doom2-1.9
-export DOOMWADPATH=~/doom/doom2-1.9
-for p in chex-quest doom-registered-1.9 doom-shareware-1.9 ultimate-doom-1.9 \
-         strife-registered-1.31 heretic-registered-1.3 hexen-1.1; do
-    DOOMWADPATH="$DOOMWADPATH:$HOME/doom/$p"
-done
-
-alias a="tmux -u -CC attach"
-alias vi="vim -X"
-
-export EDITOR=vim
-export NETHACKOPTIONS="color,fruit:garglefruit,pickup_types:?/!$+,DECgraphics"
-set -o emacs
-
-export GPG_TTY=$(tty)
-
-export LESSOPEN="|lesspipe.sh %s"
-export LESS="--ignore-case --RAW-CONTROL-CHARS"
-
-if [ -e ~/.ssh/auth_sock.sh ]; then
-    . ~/.ssh/auth_sock.sh
-fi

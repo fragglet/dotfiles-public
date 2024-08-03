@@ -20,8 +20,8 @@ session.changeWorkspaceWithMouseWheel:	True
 session.shadeWindowWithMouseWheel:	True
 session.focusNewWindows:	True
 session.doubleClickInterval:	250
-session.menuFile:	/home/fraggle/.blackbox-menu
-session.styleFile:	/home/fraggle/.blackbox/Dotfiles
+session.menuFile:	~/.blackbox-menu
+session.styleFile:	~/.blackbox/Dotfiles
 session.imageDither:	OrderedDither
 session.toolbarActionsWithMouseWheel:	True
 session.windowSnapThreshold:	0

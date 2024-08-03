@@ -28,7 +28,7 @@ menu.active.backgroundColor: rgb:88/88/88
 menu.active.foregroundColor: white
 menu.active.textColor: white
 
-rootCommand: /home/fraggle/.hostname-background.py 77 90 aa
+rootCommand: ~/.hostname-background.py 77 90 aa
 
 slit.appearance: raised solid
 slit*backgroundColor: rgb:60/78/92

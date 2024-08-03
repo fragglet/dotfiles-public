@@ -12,9 +12,10 @@ set smartindent
 " Align expressions, align case with switch
 set cino=(0,:0
 
-" Dark theme, no toolbar
+" Dark theme, no toolbar or tearoff menus
 set guioptions+=d
 set guioptions-=T
+set guioptions-=t
 
 " doom style
 set tabstop=8 softtabstop=4 shiftwidth=4 expandtab

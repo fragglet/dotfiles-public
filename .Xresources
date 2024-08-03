@@ -1,12 +1,66 @@
-*background:              #cccccc
+Xft.dpi:       96
+Xft.antialias: true
+Xft.hinting:   true
+Xft.rgba:      rgb
+Xft.autohint:  false
+Xft.hintstyle: hintslight
+
+*background:              #c3c7cb
 *foreground:              #000000
 
-rxvt*background:              #000000
-rxvt*foreground:              #eeeeee
-XTerm*background:              #000000
-XTerm*foreground:              #eeeeee
-UXTerm*background:              #000000
-UXTerm*foreground:              #eeeeee
+! Dark terminal background:
+*VT100.background:  #000000
+*VT100.foreground:  #eeeeee
+*VT100*scrollBar: true
+*VT100*allowWindowOps: true
+Rxvt.background:    #000000
+Rxvt.foreground:    #eeeeee
+
+*VT100.saveLines: 100000
+Rxvt.saveLines: 100000
+
+*VT100*forceBoxChars: true
+*VT100*faceName: xft:Fira Code,xft:Bitstream Vera Sans Mono,x:fixed
+*VT100*faceSize: 11
+*VT100*faceSize1: 7
+*VT100*faceSize2: 8
+*VT100*faceSize3: 10
+*VT100*faceSize4: 12
+*VT100*faceSize5: 14
+*VT100*faceSize6: 16
+*VT100*faceSize7: 18
+
+! Enable sixels:
+*VT100.decTerminalID: vt340
+*VT100.numColorRegisters: 256
+
+! More normal looking scrollbars; jump to location on click
+*Scrollbar*thumb: None
+*Scrollbar*minimumThumb: 20
+*Scrollbar*background: #333
+*Scrollbar*foreground: #aaa
+*Scrollbar.translations: #override\
+    <Btn1Down>: StartScroll(Continuous) MoveThumb() NotifyThumb() \n\
+    <Btn2Down>: StartScroll(Forward) \n\
+    <Btn3Down>: StartScroll(Backward) \n\
+    <Btn1Motion>: MoveThumb() NotifyThumb() \n\
+    <BtnUp>: NotifyScroll(Proportional) EndScroll()
+
+! Tooltips
+*Tip.background: #ffffd1
+
+! Babys got blue eyes like a deep blue sea on a blue, blue day
+XEyes*foreground:     #00a
+
+! Nice clock :)  Mondaine-style red second hand
+XClock*update: 1
+XClock*geometry:          300x300
+XClock.Clock.background:  #dddddd
+XClock.Clock.majorColor:  rgba:00/00/00/ff
+XClock.Clock.minorColor:  rgba:00/00/00/70
+XClock.Clock.hourColor:   rgba:30/50/30/a0
+XClock.Clock.minuteColor: rgba:30/30/50/a0
+XClock.Clock.secondColor: rgba:a0/20/20/ff
 
 !================================
 ! tango theme
@@ -31,53 +85,79 @@ UXTerm*foreground:              #eeeeee
 
 xclient*Buttons.foreground: blue
 
-xcalc*geometry:                        300x450
-xcalc.ti.bevel.background:             #111111
-xcalc.ti.bevel.screen.background:      #000000
-xcalc.ti.bevel.screen.DEG.background:  #000000
-xcalc.ti.bevel.screen.DEG.foreground:  LightSeaGreen
-xcalc.ti.bevel.screen.GRAD.background: #000000
-xcalc.ti.bevel.screen.GRAD.foreground: LightSeaGreen
-xcalc.ti.bevel.screen.RAD.background:  #000000
-xcalc.ti.bevel.screen.RAD.foreground:  LightSeaGreen
-xcalc.ti.bevel.screen.INV.background:  #000000
-xcalc.ti.bevel.screen.INV.foreground:  Red
-xcalc.ti.bevel.screen.LCD.background:  #000000
-xcalc.ti.bevel.screen.LCD.foreground:  LightSeaGreen
-xcalc.ti.bevel.screen.LCD.shadowWidth: 0
-xcalc.ti.bevel.screen.M.background:    #000000
-xcalc.ti.bevel.screen.M.foreground:    LightSeaGreen
-xcalc.ti.bevel.screen.P.background:    #000000
-xcalc.ti.bevel.screen.P.foreground:    Yellow
-xcalc.ti.Command.foreground:  White
-xcalc.ti.Command.background:  #777777
-xcalc.ti.button5.background:  Orange3
-xcalc.ti.button19.background: #611161
-xcalc.ti.button18.background: #611161
-xcalc.ti.button20.background: #611111
-xcalc.ti.button20.label:      /
-xcalc.ti.button25.background: #722222
-xcalc.ti.button30.background: #833333
-xcalc.ti.button35.background: #944444
-xcalc.ti.button40.background: #a55555
-xcalc.ti.button22.background: #222262
-xcalc.ti.button23.background: #222262
-xcalc.ti.button24.background: #222272
-xcalc.ti.button27.background: #333373
-xcalc.ti.button28.background: #333373
-xcalc.ti.button29.background: #333373
-xcalc.ti.button32.background: #444484
-xcalc.ti.button33.background: #444484
-xcalc.ti.button34.background: #444484
-xcalc.ti.button37.background: #555595
-xcalc.ti.button38.background: #555595
-xcalc.ti.button39.background: #555595
+! Calculator
+
+xcalc*geometry:               400x600
 XCalc*Cursor:                 hand2
-XCalc*ShapeStyle:             rectangle
+
+XCalc*screen*background:      #8b9886
+XCalc*screen*LCD.foreground:  black
+XCalc*screen*LCD.font:        -*-courier-bold-r-*-*-*-240-*-*-*-*-*-*
+
+XCalc*ti.background: #e3e8ec
+XCalc*ti.Command.shapeStyle:  roundedRectangle
+XCalc*ti.Command.cornerRoundPercent:    10
+XCalc*ti.Command.font: 9x15bold
+
+XCalc*ti.Command.borderColor:  black
+XCalc*ti.Command.background:   #e0d9d0
+XCalc*ti.Command.foreground:   black
+
+!  1 - 5    | 1/x  x^2  sqrt CE   AC
+!  6 - 10   | INV  sin  cos  tan  DRG
+!  7 - 15   | e    EE   log  ln   y^x
+!  16 - 20  | not  and  or   xor  trunc
+!  21 - 25  | pi   x!   (    )    base
+!  26 - 30  | shl  D    E    F    shr
+!  31 - 35  | mod  A    B    C    /
+!  36 - 40  | STO  7    8    9    *
+!  41 - 45  | RCL  4    5    6    -
+!  46 - 50  | SUM  1    2    3    +
+!  51 - 55  | EXC  0    .    +/-  =
+
+XCalc*ti.button4.background:  #f3b337
+XCalc*ti.button5.background:  #f3b337
+XCalc*ti.button6.background:  #7dbb4c
+
+XCalc*ti.button31.background: #b6b0a0
+XCalc*ti.button35.background: #b6b0a0
+XCalc*ti.button36.background: #b6b0a0
+XCalc*ti.button40.background: #b6b0a0
+XCalc*ti.button41.background: #b6b0a0
+XCalc*ti.button45.background: #b6b0a0
+XCalc*ti.button46.background: #b6b0a0
+XCalc*ti.button50.background: #b6b0a0
+XCalc*ti.button51.background: #b6b0a0
+XCalc*ti.button55.background: #b6b0a0
+
+XCalc*ti.button27.background: #fef7e4
+XCalc*ti.button28.background: #fef7e4
+XCalc*ti.button29.background: #fef7e4
+XCalc*ti.button32.background: #fef7e4
+XCalc*ti.button33.background: #fef7e4
+XCalc*ti.button34.background: #fef7e4
+XCalc*ti.button37.background: #fef7e4
+XCalc*ti.button38.background: #fef7e4
+XCalc*ti.button39.background: #fef7e4
+XCalc*ti.button42.background: #fef7e4
+XCalc*ti.button43.background: #fef7e4
+XCalc*ti.button44.background: #fef7e4
+XCalc*ti.button47.background: #fef7e4
+XCalc*ti.button48.background: #fef7e4
+XCalc*ti.button49.background: #fef7e4
+XCalc*ti.button52.background: #fef7e4
+XCalc*ti.button53.background: #fef7e4
+XCalc*ti.button54.background: #fef7e4
+
 
 ! No tiny dialogs
 Xmessage*nearMouse: TRUE
 Xmessage*geometry: 400x150
+
+! Proportional font
+*.font:          -adobe-helvetica-bold-r-normal--12-120-75-75-p-70-iso8859-1
+*editWindow*font: XtDefaultFont
+Rxvt*font:        fixed
 
 ! 3d look:
 *Command.internalWidth:         5

@@ -21,6 +21,10 @@ _update_auth_sock() {
 }
 
 _init_auth_sock() {
+    # We only do any of this for remote logins.
+    if [ "${SSH_CLIENT:-none}" = "none" ]; then
+        return
+    fi
     local central_auth_sock="$HOME/.ssh/auth_sock"
     if [ -z "$SSH_AUTH_SOCK" ]; then
         return

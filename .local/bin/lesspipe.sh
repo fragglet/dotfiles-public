@@ -96,7 +96,11 @@ case "$simple_filename" in
         tmpoutput isoinfo -l -R -J -i "$filename"
         ;;
     *.doc)
-        tmpoutput antiword "$filename"
+        if file -bi "$filename" | grep -qi msword; then
+            tmpoutput antiword "$filename"
+        else
+            exit 1
+        fi
         ;;
     *.[ao]|*.obj|core|core.*|*.core)
         (readelf -h -l -g "$filename"; objdump -S "$filename") | tmpoutput cat
@@ -139,6 +143,13 @@ case "$simple_filename" in
         ;;
     *.sqlite|*.sqlite3)
         tmpoutput sqlite3 -readonly "$filename" .dump
+        ;;
+    *.plist)
+        if file "$filename" | grep -qi binary; then
+            tmpoutput plutil -p "$filename"
+        else
+            exit 1  # Might be text format plist
+        fi
         ;;
     *)
         if [ -d "$filename" ]; then

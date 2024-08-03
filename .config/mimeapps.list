@@ -1,5 +1,12 @@
 
 [Default Applications]
+image/png=gimp.desktop
+image/jpeg=gimp.desktop
+image/gif=gimp.desktop
+image/bmp=gimp.desktop
+image/apng=gimp.desktop
+image/tiff=gimp.desktop
+image/x-pcx=gimp.desktop
 text/plain=vim.desktop
 text/markdown=vim.desktop
 text/english=vim.desktop
