@@ -1,0 +1,260 @@
+GIMP Palette
+Name: Strife
+Columns: 16
+#
+  0   0   0	Index 0
+231 227 227	Index 1
+223 219 219	Index 2
+215 211 211	Index 3
+207 203 203	Index 4
+199 195 195	Index 5
+191 191 191	Index 6
+183 183 183	Index 7
+179 175 175	Index 8
+171 167 167	Index 9
+163 159 159	Index 10
+155 151 151	Index 11
+147 147 147	Index 12
+139 139 139	Index 13
+131 131 131	Index 14
+123 123 123	Index 15
+119 115 115	Index 16
+111 111 111	Index 17
+103 103 103	Index 18
+ 95  95  95	Index 19
+ 87  87  87	Index 20
+ 79  79  79	Index 21
+ 71  71  71	Index 22
+ 67  63  63	Index 23
+ 59  59  59	Index 24
+ 51  51  51	Index 25
+ 43  43  43	Index 26
+ 35  35  35	Index 27
+ 27  27  27	Index 28
+ 19  19  19	Index 29
+ 11  11  11	Index 30
+  7   7   7	Index 31
+187 191 183	Index 32
+179 183 171	Index 33
+167 179 159	Index 34
+163 171 147	Index 35
+155 167 139	Index 36
+147 159 127	Index 37
+139 155 119	Index 38
+131 147 107	Index 39
+127 143 103	Index 40
+119 135  91	Index 41
+115 131  83	Index 42
+107 123  75	Index 43
+103 119  67	Index 44
+ 99 111  63	Index 45
+ 91 107  55	Index 46
+ 87  99  47	Index 47
+ 83  95  43	Index 48
+ 75  87  35	Index 49
+ 71  83  31	Index 50
+ 67  75  27	Index 51
+ 63  71  23	Index 52
+ 59  63  19	Index 53
+ 51  59  15	Index 54
+ 47  51  11	Index 55
+ 43  47   7	Index 56
+ 39  43   7	Index 57
+ 31  35   7	Index 58
+ 27  31   0	Index 59
+ 23  23   0	Index 60
+ 15  19   0	Index 61
+ 11  11   0	Index 62
+  7   7   0	Index 63
+219  43  43	Index 64
+203  35  35	Index 65
+191  31  31	Index 66
+175  27  27	Index 67
+163  23  23	Index 68
+147  19  19	Index 69
+135  15  15	Index 70
+119  11  11	Index 71
+107   7   7	Index 72
+ 91   7   7	Index 73
+ 79   0   0	Index 74
+ 63   0   0	Index 75
+ 51   0   0	Index 76
+ 39   0   0	Index 77
+ 23   0   0	Index 78
+ 11   0   0	Index 79
+235 231   0	Index 80
+231 211   0	Index 81
+215 179   0	Index 82
+199 151   0	Index 83
+183 127   0	Index 84
+167 103   0	Index 85
+151  83   0	Index 86
+135  63   0	Index 87
+119  47   0	Index 88
+103  35   0	Index 89
+ 87  23   0	Index 90
+ 71  11   0	Index 91
+ 55   7   0	Index 92
+ 39   0   0	Index 93
+ 23   0   0	Index 94
+ 11   0   0	Index 95
+183 231 127	Index 96
+163 215 111	Index 97
+143 199  95	Index 98
+127 183  79	Index 99
+107 171  67	Index 100
+ 91 155  55	Index 101
+ 75 139  43	Index 102
+ 63 123  35	Index 103
+ 47 111  27	Index 104
+ 35  95  19	Index 105
+ 23  79  11	Index 106
+ 15  67   7	Index 107
+  7  51   7	Index 108
+  0  35   0	Index 109
+  0  19   0	Index 110
+  0   7   0	Index 111
+199 207 255	Index 112
+183 187 239	Index 113
+163 171 219	Index 114
+151 155 203	Index 115
+135 139 187	Index 116
+123 127 171	Index 117
+107 111 155	Index 118
+ 95  99 139	Index 119
+ 83  83 123	Index 120
+ 67  71 107	Index 121
+ 55  59  91	Index 122
+ 47  47  75	Index 123
+ 35  35  59	Index 124
+ 23  23  43	Index 125
+ 15  15  27	Index 126
+  0   0  11	Index 127
+199 191 147	Index 128
+179 171 131	Index 129
+167 155 119	Index 130
+155 139 111	Index 131
+143 127  99	Index 132
+131 111  91	Index 133
+119  99  79	Index 134
+107  87  71	Index 135
+ 91  71  59	Index 136
+ 79  59  51	Index 137
+ 67  47  43	Index 138
+ 55  39  35	Index 139
+ 43  27  27	Index 140
+ 31  19  19	Index 141
+ 19  11  11	Index 142
+  7   7   0	Index 143
+143 195 211	Index 144
+123 179 195	Index 145
+107 167 183	Index 146
+ 91 155 167	Index 147
+ 75 139 155	Index 148
+ 59 127 139	Index 149
+ 47 115 127	Index 150
+ 35 103 115	Index 151
+ 27  91  99	Index 152
+ 19  79  87	Index 153
+ 11  67  71	Index 154
+  7  55  59	Index 155
+  0  43  43	Index 156
+  0  31  31	Index 157
+  0  19  19	Index 158
+  0   7   7	Index 159
+211 191 175	Index 160
+203 179 163	Index 161
+195 171 151	Index 162
+191 159 143	Index 163
+183 151 131	Index 164
+175 143 123	Index 165
+171 135 115	Index 166
+163 123 103	Index 167
+155 115  95	Index 168
+151 107  87	Index 169
+143  99  79	Index 170
+139  91  71	Index 171
+131  83  67	Index 172
+123  75  59	Index 173
+119  67  51	Index 174
+111  59  47	Index 175
+103  55  39	Index 176
+ 99  47  35	Index 177
+ 91  43  31	Index 178
+ 83  35  27	Index 179
+ 79  31  23	Index 180
+ 71  27  19	Index 181
+ 63  19  15	Index 182
+ 59  15  11	Index 183
+ 51  11   7	Index 184
+ 43   7   7	Index 185
+ 39   7   0	Index 186
+ 31   0   0	Index 187
+ 27   0   0	Index 188
+ 19   0   0	Index 189
+ 11   0   0	Index 190
+  7   0   0	Index 191
+211 199 187	Index 192
+203 191 179	Index 193
+195 183 171	Index 194
+191 175 163	Index 195
+183 167 155	Index 196
+175 159 147	Index 197
+171 151 139	Index 198
+163 143 135	Index 199
+155 139 127	Index 200
+151 131 119	Index 201
+143 123 111	Index 202
+135 115 107	Index 203
+131 107  99	Index 204
+123 103  95	Index 205
+115  95  87	Index 206
+111  87  83	Index 207
+103  83  75	Index 208
+ 95  75  71	Index 209
+ 91  67  63	Index 210
+ 83  63  59	Index 211
+ 79  55  51	Index 212
+ 71  51  47	Index 213
+ 63  43  43	Index 214
+ 59  39  39	Index 215
+ 51  35  31	Index 216
+ 43  27  27	Index 217
+ 39  23  23	Index 218
+ 31  19  19	Index 219
+ 23  15  15	Index 220
+ 19  11  11	Index 221
+ 11   7   7	Index 222
+  7   7   0	Index 223
+239 239   0	Index 224
+231 215   0	Index 225
+227 191   0	Index 226
+219 171   0	Index 227
+215 151   0	Index 228
+211 131   0	Index 229
+203 111   0	Index 230
+199  91   0	Index 231
+191  75   0	Index 232
+187  59   0	Index 233
+183  43   0	Index 234
+255   0   0	Index 235
+223   0   0	Index 236
+191   0   0	Index 237
+159   0   0	Index 238
+127   0   0	Index 239
+  0   0   0	Index 240
+139 199 103	Index 241
+107 171  75	Index 242
+ 79 143  55	Index 243
+ 55 115  35	Index 244
+ 35  87  19	Index 245
+ 19  63  11	Index 246
+215 223 255	Index 247
+187 203 247	Index 248
+143 167 219	Index 249
+ 99 131 195	Index 250
+ 63  91 167	Index 251
+203 203 203	Index 252
+215 215 215	Index 253
+223 223 223	Index 254
+235 235 235	Index 255

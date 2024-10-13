@@ -24,6 +24,12 @@ fi
 
 KERNEL=$(uname -s)
 
+# The only sensible and correct date format for `ls -l`.
+export TIME_STYLE=long-iso
+
+# Sensible `df` and `du` output on BSD systems.
+export BLOCKSIZE=1m
+
 # Generate coredumps
 # On NetBSD this "exceeds allowable limit"
 if [[ "$KERNEL" != "NetBSD" ]]; then
@@ -31,7 +37,6 @@ if [[ "$KERNEL" != "NetBSD" ]]; then
 fi
 
 # Prefer gmake over BSD.
-export MAKEFLAGS=-j5
 make() {
     if which gmake >/dev/null; then
         command gmake "$@"
@@ -39,6 +44,11 @@ make() {
         command make "$@"
     fi
 }
+
+if [[ "${MAKEFLAGS:-unset}" = unset ]]; then
+    NUM_CPUS=$(nproc 2>/dev/null || echo 4)
+    export MAKEFLAGS=-j${NUM_CPUS}
+fi
 
 # I always forget.
 alias rescan=rehash
@@ -79,3 +89,7 @@ for p in chex-quest doom-registered-1.9 doom-shareware-1.9 ultimate-doom-1.9 \
          strife-registered-1.31 heretic-registered-1.3 hexen-1.1; do
     DOOMWADPATH="$DOOMWADPATH:$HOME/doom/$p"
 done
+
+if [[ -e "$HOME/.bourneshrc.local.sh" ]]; then
+    . "$HOME/.bourneshrc.local.sh"
+fi

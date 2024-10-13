@@ -24,3 +24,4 @@ email = fraggle@soulsphere.org
         statusf = status --untracked-files=no
         logs = log --stat
         logp = log -p
+        amend = commit --amend

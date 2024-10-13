@@ -56,6 +56,12 @@ case "$simple_filename" in
     *.lz)
         tmpoutput lzip -d < "$filename"
         ;;
+    *.tar.zst)
+        unzstd < "$filename" | tmpoutput tar -tvf -
+        ;;
+    *.zst)
+        tmpoutput unzstd < "$filename"
+        ;;
     *.cpio)
         tmpoutput cpio --verbose -t -F "$filename"
         ;;

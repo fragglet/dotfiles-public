@@ -74,7 +74,9 @@ plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 case "$-" in *i*)
-    . $HOME/.bourneshrc.sh
+    if [[ -e "$HOME/.bourneshrc.sh" ]]; then
+        . $HOME/.bourneshrc.sh
+    fi
     ;;
 esac
 
