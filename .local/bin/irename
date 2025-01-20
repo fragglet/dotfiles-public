@@ -1,0 +1,305 @@
+#!/usr/bin/env python3
+#
+# irename: Interactive rename
+#
+# Less tedious than "mv foo bar; mv baz qux; ..." because you can just
+# edit the filenames in your favorite editor and in particular do mass
+# search/replace and other automated things.
+#
+
+import argparse
+import collections
+import hashlib
+import os
+import re
+import shlex
+import sys
+import tempfile
+
+TEXT_FILE_FOOTER = """
+#
+# Edit the filenames above and then save and quit. Make sure not
+# to change or delete the tags from the comments.
+#
+# vim: set ft=sh ts=8:
+# Local variables:
+# mode: shell-script
+# tab-width: 8
+# End:
+"""
+
+TAB_SIZE = 8
+
+# We use Unicode characters to encode the tag. The rationale here is that
+# these are extremely unlikely to be found in filenames, and if the user
+# does a global search/replace, the tags will not be changed.
+TAG_CHARACTERS = "ᴬᴮᴰᴱᴳᴴᴵᴶᴷᴸᴹᴺᴼᴾᴿᵀᵁⱽᵂ"
+TAG_OPEN_PAREN = "❲⟅⁽"
+TAG_CLOSE_PAREN = "⁾⟆❳"
+
+KEY_RE = re.compile(r"#.*%s(.+)%s" % (TAG_OPEN_PAREN, TAG_CLOSE_PAREN))
+
+EditError = collections.namedtuple("EditError", ("linenum", "message", "line"))
+
+class EditContext(Exception):
+    def __init__(self):
+        self.line_details = {}
+        self.errors = []
+
+    def add_line_details(self, tag, line, linenum):
+        self.line_details[tag] = (line, linenum)
+
+    def add_error(self, line, linenum, message):
+        self.errors.append(EditError(linenum, message, line))
+
+    def add_tag_error(self, tag, message):
+        line, linenum = self.line_details[tag]
+        self.add_error(line, linenum, message)
+
+def make_tag_string(key):
+    """Converts binary digest string to Unicode tag string."""
+    return "".join(TAG_CHARACTERS[(b >> 4) & 0xf] +
+                   TAG_CHARACTERS[b & 0xf]
+                   for b in key)
+
+def make_file_keys(filenames):
+    """Converts [filename...] to {tag: filename...}"""
+    seen_files = set()
+    result = {}
+    for f in filenames:
+        af = os.path.abspath(f)
+        if af in seen_files:
+            continue
+        seen_files.add(af)
+        key = hashlib.sha256(af.encode("utf8")).digest()
+        tag = make_tag_string(key)
+        for l in range(8, len(tag)):
+            short_tag = tag[:l]
+            if short_tag not in result:
+                result[short_tag] = f
+                break
+            elif result[short_tag] == f:
+                break
+        else:
+            assert False, "hash conflict? %r and %r -> %r" % (
+                f, result[tag], tag)
+    return result
+
+def write_filenames(tagged_filenames):
+    """Writes a temporary file with filenames to edit, returns tempfile.
+
+    tagged_filenames: {tag: filename...}
+    """
+    tmp = tempfile.NamedTemporaryFile(
+        mode="w",
+        suffix=".txt",
+        prefix="irename",
+        delete_on_close=False)
+
+    indent = max(len(shlex.quote(f)) for f in tagged_filenames.values())
+    indent += TAB_SIZE - (indent % TAB_SIZE)
+
+    # We use tabs to indent the comments here. The reason is that one use case
+    # for this script is if someone wants to replace spaces in the filenames,
+    # eg. %s/ /_/g in vim. In this case we want to make sure the whitespace
+    # does not get replaced between the filename and the comment. In contrast
+    # it's very unlikely that there will be tab characters in filenames, and
+    # even if there was, they'd be escaped by shlex.quote() anyway.
+    for tag, f in tagged_filenames.items():
+        quoted = shlex.quote(f)
+        tmp.write(quoted)
+        tmp.write("\t" * ((indent - len(quoted) + TAB_SIZE - 1) // TAB_SIZE))
+        tmp.write("# Was: %s -- tag: %s%s%s\n" % (
+            quoted, TAG_OPEN_PAREN, tag, TAG_CLOSE_PAREN))
+
+    print(TEXT_FILE_FOOTER.strip(), file=tmp)
+
+    tmp.close()
+    return tmp
+
+def read_new_filenames(ctx, filename):
+    """Reads back the modified version of file written by write_filenames.
+
+    Returns: {tag: filename...}, {(type, key): (line, line_number)
+    """
+    with open(filename) as f:
+        result = {}
+        for linenum, line in enumerate(f):
+            linenum += 1
+            line = line.strip()
+            parts = shlex.split(line, comments=True)
+            if parts == []:
+                continue
+            if len(parts) != 1:
+                ctx.add_error(line, linenum, "syntax error")
+                continue
+            filename = parts[0]
+            m = KEY_RE.search(line)
+            if m is None:
+                ctx.add_error(line, linenum, "missing tag")
+                continue
+            key = m.group(1)
+            if key in result:
+                ctx.add_error(
+                    line, linenum, "tag %r specified for multiple files" % key)
+                continue
+            result[key] = filename
+            ctx.add_line_details(key, line, linenum)
+        return result
+
+def check_rename_conflicts(ctx, new_filenames):
+    """Sanity check the new filenames."""
+    dest_filenames = set()
+    for tag, file_to in new_filenames.items():
+        if file_to in dest_filenames:
+            ctx.add_tag_error(
+                tag, "trying to rename multiple files to %r" % file_to)
+        else:
+            dest_filenames.add(file_to)
+
+def find_overlaps(orig_filenames, new_filenames):
+    """Identify "overlaps" - filenames that are in both orig and new."""
+    overlaps = set()
+    orig_tags = {filename: tag for tag, filename in orig_filenames.items()}
+    for tag, new_filename in new_filenames.items():
+        orig_tag = orig_tags.get(new_filename)
+        if orig_tag is not None and tag != orig_tag:
+            overlaps.add(new_filename)
+    return overlaps
+
+def make_rename_operations(ctx, orig_filenames, new_filenames):
+    """Converts tagged filenames to a list of rename operations.
+
+    orig_filenames: {tag: filename...}
+    new_filenames: {tag: filename...}
+    Returns: [(orig_filename, new_filename)...]
+    """
+    overlaps = find_overlaps(orig_filenames, new_filenames)
+    ops = []
+    fixups = []
+    for tag, new_filename in new_filenames.items():
+        if tag not in orig_filenames:
+            ctx.add_tag_error(tag, "unknown tag %r" % tag)
+            continue
+        orig_filename = orig_filenames[tag]
+        if new_filename == orig_filename:
+            continue
+        # A corner case is that we can have "overlaps" - where one file's
+        # new name is another file's original name. To avoid the possibility
+        # of overwriting, we rename to a temp filename and fix up later.
+        if new_filename in overlaps:
+            # Yes, this is insecure ...
+            tmp_filename = tempfile.mktemp(
+                suffix="--" + os.path.basename(new_filename),
+                dir=os.path.dirname(new_filename))
+            ops.append((orig_filename, tmp_filename))
+            fixups.append((tmp_filename, new_filename))
+        elif os.path.exists(new_filename):
+            ctx.add_tag_error(
+                tag, "a file already exists named %r" % new_filename)
+        else:
+            ops.append((orig_filename, new_filename))
+
+    return ops + fixups
+
+def edit(filename):
+    """Invoke editor to edit the given file."""
+    editor = os.getenv("EDITOR") or "vi"
+    result = os.spawnvp(os.P_WAIT, editor, [editor, filename])
+    return result == 0
+
+def try_again():
+    """Prompt user on whether to edit again."""
+    while True:
+        answer = input("Edit again [y/n]? ")
+        if answer.lower() == "y":
+            return True
+        elif answer.lower() == "n":
+            sys.exit(1)
+
+def perform_renames(ops, func=os.rename, verbose=True):
+    for file_from, file_to in ops:
+        if verbose:
+            print(shlex.join(rename_command + [file_from, file_to]))
+        # TODO: Keep going if a rename fails?
+        func(file_from, file_to)
+
+def null_rename(orig, new):
+    # Used for dry-run mode
+    pass
+
+def external_rename(orig, new):
+    cmd = rename_command + [orig, new]
+    result = os.spawnvp(os.P_WAIT, cmd[0], cmd)
+    assert result == 0, "Rename failed: exit code=%d" % result
+
+def parse_arguments():
+    """Returns parsed command line arguments."""
+    parser = argparse.ArgumentParser(prog="irename",
+                                     description="Interactive file renamer")
+    parser.add_argument("-g", "--git", default=False,
+                        action=argparse.BooleanOptionalAction,
+                        help="Perform git rename")
+    parser.add_argument("-n", "--dry-run", default=False,
+                        action=argparse.BooleanOptionalAction,
+                        help="Don't rename, just list operations")
+    parser.add_argument("-v", "--verbose", default=False,
+                        action=argparse.BooleanOptionalAction,
+                        help="Print all commands")
+    parser.add_argument("filename", nargs="*", help="Files to rename")
+
+    args = parser.parse_args()
+    if len(args.filename) == 0:
+        parser.print_help()
+        sys.exit(0)
+
+    return args
+
+args = parse_arguments()
+orig_filenames = args.filename
+nonexistent = [f for f in orig_filenames if not os.path.exists(f)]
+if len(nonexistent) > 0:
+    print("Files/directories not found:")
+    for f in nonexistent:
+        print("\t" + f)
+    sys.exit(1)
+
+keys = make_file_keys(orig_filenames)
+out = write_filenames(keys)
+
+while True:
+    ctx = EditContext()
+    if not edit(out.name):
+        print("Edit command failed.")
+        try_again()
+        continue
+
+    new_filenames = read_new_filenames(ctx, out.name)
+    check_rename_conflicts(ctx, new_filenames)
+    rename_ops = make_rename_operations(ctx, keys, new_filenames)
+
+    if len(ctx.errors) > 0:
+        print()
+        for e in sorted(ctx.errors):
+            print("%s\n^ line %d: " % (e.line, e.linenum), end="")
+            print(e.message)
+        print()
+        try_again()
+
+if len(rename_ops) == 0:
+    print("Nothing to do.")
+    sys.exit(0)
+
+if args.git:
+    rename_func = external_rename
+    rename_command = ["git", "mv"]
+else:
+    rename_func = os.rename
+    rename_command = ["mv"]
+
+verbose = args.verbose
+if args.dry_run:
+    rename_func = null_rename
+    verbose = True
+
+perform_renames(rename_ops, func=rename_func, verbose=verbose)

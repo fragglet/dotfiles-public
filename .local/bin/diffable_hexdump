@@ -1,0 +1,57 @@
+#!/usr/bin/env python3
+#
+# Usage:
+# diff -u <(./diffable_hexdump a.bin ) <(./diffable_hexdump b.bin)
+
+import sys
+
+BYTES_PER_LINE = 16
+CHUNK_LEN = 8
+
+def hexdump(data):
+    i = 0
+    while i < len(data):
+        line = data[i:i+BYTES_PER_LINE]
+        line_str = " ".join("%02x" % b for b in line)
+        ascii_str = "".join("%c" % b if b >= 0x20 and b < 0x7f else "."
+                            for b in line)
+        print("%-50s |%-16s|" % (line_str, ascii_str))
+        i += BYTES_PER_LINE
+
+def is_lyndon_word(w):
+    for rot in range(1, CHUNK_LEN):
+        for i in range(len(w)):
+            j = (i + rot + CHUNK_LEN) % CHUNK_LEN
+            if w[j] < w[i]:
+                cmp = -1
+                break
+            elif w[j] > w[i]:
+                cmp = +1
+                break
+        else:
+            cmp = 0
+
+        if cmp < 0:
+            return False
+
+    return True
+
+
+with open(sys.argv[1], "rb") as f:
+    data = f.read()
+
+data_len = len(data)
+cur_data = []
+i = 0
+while i < data_len:
+    if i < len(data) - CHUNK_LEN:
+        chunk = data[i:i+CHUNK_LEN]
+        if is_lyndon_word(chunk):
+            hexdump(cur_data)
+            cur_data = list(chunk)
+            i += len(chunk)
+            continue
+    cur_data.append(data[i])
+    i += 1
+
+hexdump(cur_data)

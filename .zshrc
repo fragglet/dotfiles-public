@@ -80,6 +80,9 @@ case "$-" in *i*)
     ;;
 esac
 
+# Don't spawn a pager if we type `<foo.txt`:
+READNULLCMD=
+
 # User configuration
 
 # export MANPATH="/usr/local/man:$MANPATH"

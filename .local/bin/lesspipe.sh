@@ -99,7 +99,17 @@ case "$simple_filename" in
         tmpoutput tcpdump -nvvvxxx -r "$filename"
         ;;
     *.iso)
-        tmpoutput isoinfo -l -R -J -i "$filename"
+        isoinfo=$(isoinfo -d -i "$filename")
+        isoopts="-l"
+        # These are needed because the -J/-R options *only* work if these
+        # headers are present; otherwise isoinfo exits with an error.
+        if ! echo "$isoinfo" | grep -qi "no joliet"; then
+            isoopts="$isoopts -J"
+        fi
+        if ! echo "$isoinfo" | grep -qi "no.*rock ridge"; then
+            isoopts="$isoopts -R"
+        fi
+        tmpoutput isoinfo -l $isoopts -i "$filename"
         ;;
     *.doc)
         if file -bi "$filename" | grep -qi msword; then

@@ -41,7 +41,6 @@
 *.bin  diff=lesspipe
 *.cap  diff=lesspipe
 *.iso  diff=lesspipe
-*.doc  diff=lesspipe
 *.obj  diff=lesspipe
 *.core  diff=lesspipe
 *.deb  diff=lesspipe

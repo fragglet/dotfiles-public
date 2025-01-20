@@ -1,0 +1,95 @@
+#!/usr/bin/env bash
+#
+# Shortcut script for mounting a .iso
+
+set -eu
+set -o pipefail
+
+linux_mount() {
+    local filename="$1" mntpoint="$2"
+    $sudo mount -o loop,ro -t iso9660 "$filename" "$mntpoint"
+    echo "When done:"
+    echo "  $sudo umount $mntpoint"
+}
+
+freebsd_mount() {
+    local filename="$1" mntpoint="$2"
+    local dev=$($sudo mdconfig "$filename")
+    if ! $sudo mount_cd9660 "/dev/$dev" "$mntpoint"; then
+        # Don't leak a memory device
+        $sudo mdconfig -du "$dev"
+        false
+    fi
+    echo "When done:"
+    echo "  $sudo umount $mntpoint; $sudo mdconfig -du $dev"
+}
+
+netbsd_mount() {
+    local filename="$1" mntpoint="$2" ro_opt="$3" dev
+    if ! dev=$($sudo vnconfig -l | grep "not in use" \
+             | sed "s/:.*//" | head -n 1); then
+        echo "No vnd devices free." >&2
+        false
+    fi
+    $sudo vnconfig "$ro_opt" "$dev" "$filename"
+    if ! $sudo mount -t cd9660 "/dev/${dev}a" "$mntpoint"; then
+        # Don't leak a memory device
+        $sudo vnconfig -u "$dev"
+        false
+    fi
+    echo "When done:"
+    echo "  $sudo umount $mntpoint; $sudo vnconfig -u $dev"
+}
+
+do_mount() {
+    local filename="$1" mntpoint="$2"
+    local uname=$(uname)
+    case "$uname" in
+        Linux)
+            linux_mount "$filename" "$mntpoint"
+            ;;
+        FreeBSD)
+            freebsd_mount "$filename" "$mntpoint"
+            ;;
+        NetBSD)
+            netbsd_mount "$filename" "$mntpoint" "-r"
+            ;;
+        OpenBSD)
+            # OpenBSD version of vnconfig doesn't support -r option
+            netbsd_mount "$filename" "$mntpoint" ""
+            ;;
+        *)
+            echo "don't know how to mount an .iso file on $uname"
+            false
+            ;;
+    esac
+    echo "mounted $filename at $mntpoint"
+}
+
+if [ $# = 0 ]; then
+    echo "Usage: cdmount <foo.iso>"
+    exit 1
+fi
+
+if which sudo >/dev/null 2>&1; then
+    sudo=sudo
+elif which doas >/dev/null 2>&1; then
+    sudo=doas
+else
+    sudo=
+fi
+
+mounts=$(mount)
+
+d=1
+while true; do
+    mntpoint="/mnt/temp$d"
+    if ! echo "$mounts" | grep -q "$mntpoint"; then
+        if [ ! -d "$mntpoint" ]; then
+            $sudo mkdir "$mntpoint"
+        fi
+        do_mount "$1" "$mntpoint"
+        exit 0
+    fi
+    d=$((d + 1))
+done

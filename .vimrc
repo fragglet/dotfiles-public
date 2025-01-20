@@ -52,3 +52,6 @@ set keywordprg=:Man
 
 " fast updates for gitgutter
 set updatetime=100
+
+" allow cursor move to end of line
+set ve+=onemore

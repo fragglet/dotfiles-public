@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Poor man's `watch` for systems that don't have it.
+
+while true; do
+    clear
+    {
+        echo "Every ${WATCH_INTERVAL:-5}s: $@"
+        echo
+        "$@" 2>&1
+    } | cut -b 1-${COLUMNS:-80} | head -n $(( ${LINES:-25} - 1 ))
+
+    # Use of read with timeout allows pressing enter to refresh early:
+    read -t ${WATCH_INTERVAL:-5}
+done

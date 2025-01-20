@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+#
+# Update to latest dotfiles on all ssh hosts
+
+COMMANDS="
+echo '== Update from git...'
+if git -C .dotfiles pull; then
+  cd .dotfiles
+  echo '== Install all files...'
+  ./install.sh
+  echo '== Done.'
+fi
+"
+
+set -eu
+
+grep -h "^Host" ~/.ssh/config.d/* | grep -v hughes | while read _ hostname rest; do
+    echo "= $hostname"
+    if !  ssh -A -o "PasswordAuthentication false" -o "ConnectTimeout 1" \
+              $hostname "$COMMANDS" </dev/null; then
+        echo "*** Update for $hostname failed"
+    fi
+    echo
+done
