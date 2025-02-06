@@ -25,3 +25,6 @@ email = fraggle@soulsphere.org
         logs = log --stat
         logp = log -p
         amend = commit --amend
+        amendx = commit --amend --no-edit
+        qcommit = !git-qcommit
+        qamend = !git-qcommit --amend

@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+
+# The pipe character here is at the 60 column mark:
+LINE1="Type an empty line to open a full text editor.                              |"
+LINE2="Commit message: "
+
+set -eu
+
+if [ $# != 1 ]; then
+    echo "Usage: $0 <filename>"
+    exit 1
+fi
+
+# Usually there will only be comments in the commit message file. However, if
+# the user is performing a merge, amend, etc. then there may be an existing
+# line; if so, we place it in the initial text (`read -i`) so that it is edited
+# rather than overwritten.
+current_text=$(grep -v "^#" "$1")
+current_lines=$(echo "$current_text" | grep . | wc -l)
+
+if [ $current_lines -lt 2 ]; then
+    echo
+    echo "$LINE1"
+    read -p "$LINE2" -i "$current_text" -er COMMIT_MSG
+else
+    # There is more than one line already there, and our one-line prompt would
+    # lose some of it. Instead, open a full editor to do this properly.
+    COMMIT_MSG=
+fi
+
+if [ "$COMMIT_MSG" = "" ]; then
+    exec "${REAL_EDITOR:-vi}" "$@"
+fi
+
+echo "$COMMIT_MSG" > "$1"

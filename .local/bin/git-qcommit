@@ -1,0 +1,11 @@
+#!/bin/bash
+#
+# Wrapper around `git commit` that sets `qcommit-prompt` as a temporary editor;
+# this just prompts for a one-line commit message without starting up a full
+# editor.
+
+set -eu
+
+export REAL_EDITOR="${EDITOR:-vi}"
+export EDITOR="qcommit-prompt"
+exec git commit "$@"
