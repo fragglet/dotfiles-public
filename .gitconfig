@@ -28,3 +28,5 @@ email = fraggle@soulsphere.org
         amendx = commit --amend --no-edit
         qcommit = !git-qcommit
         qamend = !git-qcommit --amend
+        fix-url = !git-fix-url
+        fixurl = !git-fix-url

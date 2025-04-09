@@ -1,0 +1,27 @@
+[begin] (Fluxbox)
+  [include] (~/.config/blackbox/menu-common)
+  [separator]
+
+  [workspaces] (Workspace List)
+
+  [config] (Configuration)
+  [submenu] (Styles) {Choose a style...}
+    [stylesdir] (~/.fluxbox/styles)
+    [separator]
+    [stylesdir] (/usr/share/fluxbox/styles)
+    [stylesdir] (/usr/local/share/fluxbox/styles)
+    [stylesdir] (/usr/pkg/share/fluxbox/styles)
+  [end]
+
+  [separator]
+
+  [reconfig] (Reconfigure)
+
+  [submenu] (Exit)               {Exit}
+    [restart] (Restart)
+    [restart] (Exec xterm)       {~/.local/bin/pick-an-xterm}
+    [restart] (blackbox)         {blackbox}
+    [exit] (Exit)
+  [end]
+[end]
+

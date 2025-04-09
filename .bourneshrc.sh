@@ -73,6 +73,12 @@ emacseval() {
     emacsclient -a "emacs -nw --eval" -c -nw -q -e "$@"
 }
 
+start-ssh-agent() {
+    ssh-agent > ~/.ssh/agent-env
+    . ~/.ssh/agent-env
+    ssh-add
+}
+
 export GPG_TTY=$(tty)
 
 # good for SDL over remote X:

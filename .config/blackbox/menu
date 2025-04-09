@@ -52,15 +52,13 @@
 # fly.
 
 [begin] (Blackbox)
-  [exec] (xterm)    {uxterm -ls}
-  [exec] (xcalc)    {xcalc}
-  [exec] (Free42)   {free42dec}
+  [include] (~/.config/blackbox/menu-common)
 
   [workspaces] (Workspace List)
 
   [config] (Configuration)
   [submenu] (Styles) {Choose a style...}
-    [stylesdir] (~/.blackbox)
+    [stylesdir] (~/.config/blackbox/styles)
     [stylesdir] (/usr/share/blackbox/styles)
     [stylesdir] (/usr/local/share/blackbox/styles)
     [stylesdir] (/usr/pkg/share/blackbox/styles)
@@ -69,7 +67,8 @@
 
   [submenu] (Exit)               {Exit}
     [restart] (Restart)
-    [restart] (Exec xterm)       {xterm}
+    [restart] (Exec xterm)       {~/.local/bin/pick-an-xterm}
+    [restart] (fluxbox)          {fluxbox}
     [exit] (Exit)
   [end]
 [end]

@@ -1,0 +1,19 @@
+#!/bin/sh
+
+TERMS="uxterm xterm urxvt rxvt"
+
+for term in $TERMS; do
+    if which $term >/dev/null 2>&1; then
+        exec $term -ls "$@"
+    fi
+done
+
+TERMS2="gnome-terminal konsole xfce4-terminal eterm lxterminal sensible-terminal"
+
+for term in $TERMS2; do
+    if which $term >/dev/null 2>&1; then
+        exec $term "$@"
+    fi
+done
+
+echo "Failed to find a usable terminal!" >/dev/stderr

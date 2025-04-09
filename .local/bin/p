@@ -1,0 +1,190 @@
+#!/usr/bin/env bash
+
+set -eu
+set -o pipefail
+
+# TODO: dnf, apk, guix, xbps etc.
+PACKAGE_MANAGERS="apt pkgin pkg pkg_add pkgman"
+
+have_command() {
+    which "$1" >/dev/null 2>&1
+}
+
+_() {
+    echo "+ $@"
+    exec "$@"
+}
+
+_sudo() {
+    if [[ $UID != 0 ]] && have_command doas; then
+        _ doas "$@"
+    elif [[ $UID != 0 ]] && have_command sudo; then
+        _ sudo "$@"
+    else
+        _ "$@"
+    fi
+}
+
+# Debian:
+apt::search() {
+    _ apt search "$@"
+}
+apt::info() {
+    _ apt info "$@"
+}
+apt::add() {
+    _sudo apt install "$@"
+}
+apt::remove() {
+    _sudo apt remove "$@"
+}
+apt::list() {
+    _ dpkg --get-selections "$@"
+}
+apt::contents() {
+    _ dpkg -L "$@"
+}
+
+# NetBSD/pkgsrc
+pkgin::search() {
+    _ pkgin search "$@"
+}
+pkgin::info() {
+    _ pkgin pkg-descr "$@"
+}
+pkgin::add() {
+    _sudo pkgin install "$@"
+}
+pkgin::remove() {
+    _sudo pkgin remove "$@"
+}
+pkgin::list() {
+    _ pkgin list "$@"
+}
+pkgin::contents() {
+    _ pkgin pkg-content "$@"
+}
+
+# FreeBSD
+pkg::search() {
+    _ pkg search "$@"
+}
+pkg::info() {
+    # Installed package only
+    _ pkg info "$@"
+}
+pkg::add() {
+    _sudo pkg install "$@"
+}
+pkg::remove() {
+    _sudo pkg remove "$@"
+}
+pkg::list() {
+    _ pkg info "$@"
+}
+pkg::contents() {
+    _ pkg list "$@"
+}
+
+# Haiku
+_haiku_package_path() {
+    if [ $# != 1 ]; then
+	echo "Ambiguous package name: matched $@" >>/dev/stderr
+	return 1
+    fi
+    if [ ! -e "$1" ]; then
+	echo "No match for $@" >>/dev/stderr
+	return 1
+    fi
+    echo "$1"
+}
+haiku_package_path() {
+    _haiku_package_path /system/packages/$1-*.hpkg || echo fail
+}
+pkgman::search() {
+    _ pkgman search "$@"
+}
+pkgman::info() { # Installed package only
+    local pp=$(haiku_package_path "$1")
+    if [[ "$pp" != fail ]]; then
+        _ package list -i "$pp"
+    fi
+}
+pkgman::add() {
+    _ pkgman install "$@"
+}
+pkgman::remove() {
+    _ pkgman uninstall "$@"
+}
+pkgman::list() {
+    _ ls /system/packages
+}
+pkgman::contents() {
+    local pp=$(haiku_package_path "$1")
+    if [[ "$pp" != fail ]]; then
+        _ package list -p "$pp"
+    fi
+}
+
+# BSD ports (OpenBSD/NetBSD):
+pkg_add::search() {
+    _ pkg_info -Q "$@"
+}
+pkg_add::info() {
+    _ pkg_info "$@"
+}
+pkg_add::add() {
+    _sudo pkg_add "$@"
+}
+pkg_add::remove() {
+    _sudo pkg_delete "$@"
+}
+pkg_add::list() {
+    _ pkg_info "$@"
+}
+pkg_add::contents() {
+    _ pkg_info -L "$@"
+}
+
+USAGE="
+Usage:
+  $0 l|list                - List installed packages
+  $0 s|search <query>      - Search for package
+  $0 i|info <pkgname>      - Show info on package
+  $0 a|add <pkgname>       - Install package
+  $0 r|remove <pkgname>    - Uninstall package
+  $0 c|contents <pkgname>  - Show files installed by package
+"
+
+PM=
+for pm in $PACKAGE_MANAGERS; do
+    if have_command "$pm"; then
+        PM=$pm
+        break
+    fi
+done
+
+if [[ "$PM" = "" ]]; then
+    echo "No known package manager found; tried:"
+    echo "  $PACKAGE_MANAGERS"
+    exit 1
+fi
+
+if [[ $# = 0 ]]; then
+    echo "$USAGE"
+    exit 0
+fi
+
+cmd=$1; shift
+case "$cmd" in
+    l|list) $PM::list "$@" ;;
+    s|search) $PM::search "$@" ;;
+    i|info) $PM::info "$@" ;;
+    a|add) $PM::add "$@" ;;
+    r|remove) $PM::remove "$@" ;;
+    c|contents) $PM::contents "$@" ;;
+    *)
+        echo "$USAGE"
+        exit 1
+        ;;
+esac

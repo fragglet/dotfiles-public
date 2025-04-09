@@ -20,6 +20,8 @@ seed(crc32(hostname))
 r, g, b = (int(x, 16) for x in argv[1:4])
 h, s, v = colorsys.rgb_to_hsv(r, g, b)
 h += random() * 0.2 - 0.1
+if h < 0:
+    h += 1.0
 s = max(min(s + random() * 0.3 - 0.15, 1.0), 0)
 v = max(min(v + random() * 32 - 16, 255), 0)
 r, g, b = colorsys.hsv_to_rgb(h, s, v)

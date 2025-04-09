@@ -1,0 +1,11 @@
+[begin]
+  [shade]
+  [stick]
+  [maximize]
+  [MaximizeVertical]  (Maximize Vertical)
+  [iconify]
+  [sendto]
+  [separator]
+  [close]
+  [kill]  (Kill Window)
+[end]

@@ -11,8 +11,10 @@ Xft.hintstyle: hintslight
 ! Dark terminal background:
 *VT100.background:  #000000
 *VT100.foreground:  #eeeeee
+*VT100.geometry: 80x25
 *VT100*scrollBar: true
 *VT100*allowWindowOps: true
+*VT100*allowMouseOps: true
 Rxvt.background:    #000000
 Rxvt.foreground:    #eeeeee
 
@@ -87,7 +89,7 @@ xclient*Buttons.foreground: blue
 
 ! Calculator
 
-xcalc*geometry:               400x600
+xcalc*geometry:               300x500
 XCalc*Cursor:                 hand2
 
 XCalc*screen*background:      #8b9886

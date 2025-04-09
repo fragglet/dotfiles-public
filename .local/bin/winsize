@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+#
+# Script that shows window size with real time updates, for resizing if
+# your window manager doesn't do it for you.
+
+sz=
+
+while true; do
+    new_sz=${COLUMNS}x${LINES}
+    if [[ $new_sz != $sz ]]; then
+        clear
+        echo
+        echo "  $new_sz"
+        sz=$new_sz
+    fi
+    sleep 0.1
+done

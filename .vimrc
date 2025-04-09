@@ -46,6 +46,11 @@ au QuickFixCmdPost make cwindow
 
 map <C-k> :make<CR>
 
+let _ = system("which gmake")
+if v:shell_error == 0
+    set makeprg=gmake
+endif
+
 " view manpages as a frame
 runtime ftplugin/man.vim
 set keywordprg=:Man
@@ -55,3 +60,8 @@ set updatetime=100
 
 " allow cursor move to end of line
 set ve+=onemore
+
+if has("gui_running")
+  set lines=40 columns=85
+  set guifont="Fira Code 12"
+endif

@@ -1,0 +1,65 @@
+[begin] (bbkeys configuration file)
+
+  [config]
+    [option] (styleFile) {~/.config/blackbox/styles/Dotfiles}
+    [option] (honorModifiers) {false}
+    [option] (raiseWhileCycling) {false}
+    [option] (showCycleMenu)  {true}
+    [option] (cycleMenuTitle) {}
+    [option] (menuTextJustify) {left}
+    [option] (followWindowOnSend)  {true}
+    [option] (includeIconifiedWindowsInCycle)  {true}
+    [option] (autoConfig)   {true}
+    [option] (autoConfigCheckTimeout) {2}
+    [option] (workspaceColumns) {4}
+    [option] (cycleMenuX) {20}
+    [option] (cycleMenuY) {20}
+  [end]
+
+  [keybindings] (begin keybindings)
+    ; ctrl-alt-w, 1 to move to ws 1
+    [chain] (Control-Mod1-W)
+      [sendToWorkspace] (1) {1}
+      [sendToWorkspace] (2) {2}
+      [sendToWorkspace] (3) {3}
+      [sendToWorkspace] (4) {4}
+      [sendToWorkspace] (5) {5}
+      [sendToWorkspace] (6) {6}
+      [sendToWorkspace] (7) {7}
+      [sendToWorkspace] (8) {8}
+    [end]
+    [Lower]  (Mod1-Down)
+    [Raise]  (Mod1-Up)
+    [toggleShade]  (Mod1-F9)
+    [Close]  (Mod1-F4)
+    [Iconify]  (Mod1-m)
+    [toggleMaximizeFull]  (Mod1-F12)
+    [toggleMaximizeHorizontal]  (Mod1-F11)
+    [toggleMaximizeVertical]  (Mod1-F10)
+    [toggleOmnipresent]  (Mod1-Control-S)
+    [resizeWindowWidth]  (Mod1-Control-Shift-Left) {-5}
+    [resizeWindowWidth]  (Mod1-Control-Shift-Right) {5}
+    [resizeWindowHeight]  (Mod1-Control-Shift-Up) {-5}
+    [resizeWindowHeight]  (Mod1-Control-Shift-Down) {5}
+    [moveWindowUp]  (Mod1-Control-Up) {1}
+    [moveWindowDown]  (Mod1-Control-Down) {1}
+    [moveWindowLeft]  (Mod1-Control-Left) {1}
+    [moveWindowRight]  (Mod1-Control-Right) {1}
+    [NextWindow]  (Mod1-Tab)
+    [NextWindowOnAllWorkspaces]  (Mod1-Control-Tab)
+    [PrevWindow]  (Mod1-Shift-Tab)
+    [changeWorkspace]  (Mod1-1) {1}
+    [changeWorkspace]  (Mod1-2) {2}
+    [changeWorkspace]  (Mod1-3) {3}
+    [changeWorkspace]  (Mod1-4) {4}
+    [changeWorkspace]  (Mod1-5) {5}
+    [changeWorkspace]  (Mod1-6) {6}
+    [changeWorkspace]  (Mod1-7) {7}
+    [changeWorkspace]  (Mod1-8) {8}
+
+    #[upWorkspace] (Mod1-Control-K)
+    #[downWorkspace] (Mod1-Control-J)
+    #[leftWorkspace] (Mod1-Control-H)
+    #[rightWorkspace] (Mod1-Control-L)
+  [end] (end keybindings)
+[end] (end bbkeys configuration)

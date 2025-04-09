@@ -10,7 +10,7 @@
 *marginWidth: 2
 
 menu.title.appearance: raised border
-menu.title.backgroundColor: rgb:88/88/88
+menu.title.backgroundColor: rgb:98/88/88
 menu.title.foregroundColor: black
 menu.title.textColor: white
 menu.title.alignment: center
@@ -24,19 +24,20 @@ menu.frame.disabledColor: darkgrey
 menu.frame.alignment: left
 
 menu.active.appearance: flat solid border
-menu.active.backgroundColor: rgb:88/88/88
-menu.active.foregroundColor: white
+menu.active.backgroundColor: rgb:98/88/88
+menu.active.foregroundColor: black
 menu.active.textColor: white
 
-rootCommand: ~/.hostname-background.py 77 90 aa
+rootCommand: bsetroot -solid rgb:5a/3b/4a
+#rootCommand: ~/.config/blackbox/hostname-background.py 5a 3b 4a
 
 slit.appearance: raised solid
-slit*backgroundColor: rgb:60/78/92
+slit*backgroundColor: rgb:92/60/78
 slit.marginWidth: 2
 
 toolbar.appearance: raised border
 toolbar.alignment: center
-toolbar*backgroundColor: rgb:60/78/92
+toolbar*backgroundColor: rgb:92/60/78
 toolbar*textColor: black
 toolbar.label.appearance: parentrelative
 toolbar.clock.appearance: parentrelative
@@ -45,7 +46,7 @@ toolbar.windowLabel.appearance: parentrelative
 window.label.marginWidth: 1
 
 window.title.focus.appearance: raised border
-window.title.focus.backgroundColor: rgb:88/88/88
+window.title.focus.backgroundColor: rgb:98/78/78
 window.label.focus.appearance: parentrelative
 window.label.focus.textColor: white
 window.button.focus.appearance: parentrelative
@@ -56,13 +57,13 @@ window.grip.focus.appearance: raised solid border
 window.grip.focus.backgroundColor: rgb:88/88/88
 
 window.title.unfocus.appearance: raised border
-window.title.unfocus.backgroundColor: rgb:60/78/92
+window.title.unfocus.backgroundColor: rgb:82/60/68
 window.button.unfocus.appearance: parentrelative
 window.button.unfocus.foregroundColor: rgb:22/22/22
 window.handle.unfocus.appearance: raised solid border
-window.handle.unfocus.backgroundColor: rgb:60/78/92
+window.handle.unfocus.backgroundColor: rgb:92/60/78
 window.grip.unfocus.appearance: raised solid border
-window.grip.unfocus.backgroundColor: rgb:60/78/92
+window.grip.unfocus.backgroundColor: rgb:92/60/78
 window.label.unfocus.appearance: parentrelative
 window.label.unfocus.textColor: rgb:22/22/22
 

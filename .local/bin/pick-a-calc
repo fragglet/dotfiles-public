@@ -1,0 +1,11 @@
+#!/bin/sh
+
+TERMS="free42dec free42bin xcalc gnome-calculator"
+
+for term in $TERMS; do
+    if which $term >/dev/null 2>&1; then
+        exec $term "$@"
+    fi
+done
+
+exec xterm -e "bc"
