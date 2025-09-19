@@ -30,3 +30,12 @@ email = fraggle@soulsphere.org
         qamend = !git-qcommit --amend
         fix-url = !git-fix-url
         fixurl = !git-fix-url
+        origin = remote show -n origin
+        co = checkout
+        resolve = !git-resolve
+
+[filter "lfs"]
+       clean = git-lfs clean -- %f
+       smudge = git-lfs smudge -- %f
+       process = git-lfs filter-process
+       required = true

@@ -1,0 +1,1 @@
+../../modules/vim-fugitive/autoload/fugitive.vim

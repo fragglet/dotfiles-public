@@ -1,5 +1,8 @@
 #!/bin/sh
 
+mate-power-manager &
+nm-applet &
+
 xrdb ~/.Xresources
 
 # Bell: C8, short

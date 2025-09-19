@@ -4,7 +4,7 @@ set -eu
 set -o pipefail
 
 # TODO: dnf, apk, guix, xbps etc.
-PACKAGE_MANAGERS="apt pkgin pkg pkg_add pkgman"
+PACKAGE_MANAGERS="apt pkgin pkg pkg_add pkgman brew"
 
 have_command() {
     which "$1" >/dev/null 2>&1
@@ -144,6 +144,26 @@ pkg_add::list() {
 }
 pkg_add::contents() {
     _ pkg_info -L "$@"
+}
+
+# Homebrew:
+brew::search() {
+    _ brew search "$@"
+}
+brew::info() {
+    _ brew info "$@"
+}
+brew::add() {
+    _ brew install "$@"
+}
+brew::remove() {
+    _ brew uninstall "$@"
+}
+brew::list() {
+    _ brew list "$@"
+}
+brew::contents() {
+    _ brew ls --verbose "$@"
 }
 
 USAGE="

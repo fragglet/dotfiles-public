@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+#
+# ssh "hop" script, to ssh into one host and then use it to connect
+# to a second host. This script establishes a connection using port
+# forwarding, so even if the first host is compromised, an attacker
+# will be unable to view the session to the second host.
+
+FORWARD_PORT=8000
+
+set -euo pipefail
+
+hostname_for_host() {
+    local needle="$1"
+    cat ~/.ssh/config.d/* | tr A-Z a-z | {
+        local curr_host=
+        local result="$needle"
+        while read variable value; do
+            case "$variable" in
+                host)
+                    curr_host="$value"
+                    ;;
+                hostname)
+                    if [[ "$curr_host" = "$needle" ]]; then
+                        result="$value"
+                        break
+                    fi
+                    ;;
+            esac
+        done
+        echo "$result"
+    }
+}
+
+if [ $# -lt 2 ]; then
+    echo "Usage: $0 <host1> <host2> [options]"
+    exit 1
+fi
+
+host1=$1
+host2=$2
+shift; shift
+
+hostname2=$(hostname_for_host "$host2")
+
+# We don't use the usual known_hosts file as it will cause clashes when we
+# connect to different hosts using the same port number. Instead, we generate
+# a unique known_hosts each time using the host key we have recorded for
+# $hostname2, with the hostname changed to localhost with our port number.
+ssh-keygen -F "$hostname2" | grep -v "^#" | while read hostpart rest; do
+    echo "[localhost]:$FORWARD_PORT $rest"
+done > ~/.ssh/known_hosts.hop
+
+# Establish connection to first host. The -f option makes ssh background
+# itself immediately before running the sleep command, and it will
+# automatically terminate once the last port forward is closed.
+ssh -f -L$FORWARD_PORT:$hostname2:ssh "$host1" sleep 5
+
+# Establish connection through localhost.
+ssh -o UserKnownHostsFile=~/.ssh/known_hosts.hop -p $FORWARD_PORT localhost "$@"

@@ -4,8 +4,7 @@ colorscheme desert
 set gfn=DejaVu\ Sans\ Mono\ 10
 syntax on
 set scrolloff=5
-set hls
-set ruler
+set hls ruler modeline incsearch
 
 set smartindent
 
@@ -17,7 +16,6 @@ set guioptions+=d
 set guioptions-=T
 set guioptions-=t
 
-set modeline
 " doom style
 set tabstop=8 softtabstop=4 shiftwidth=4 expandtab
 " lhasa style
@@ -25,6 +23,7 @@ set tabstop=8 softtabstop=4 shiftwidth=4 expandtab
 
 autocmd FileType make setlocal sw=8 sts=8 ts=8 noexpandtab
 autocmd FileType gitcommit setlocal tw=72 expandtab ts=8 sts=2 sw=2
+autocmd FileType go setlocal sw=8 sts=8 ts=8 noexpandtab
 
 highlight OverLength ctermbg=red ctermfg=white guibg=#592929
 match OverLength /\%81v.*/

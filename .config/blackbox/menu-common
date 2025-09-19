@@ -3,4 +3,4 @@
 [exec] (Calculator) {~/.local/bin/pick-a-calc}
 [exec] (Python Console) {xterm -e python3}
 [exec] (Run...)   {fbrun -font lucidasanstypewriter-10:bold -w 500}
-[exec] (Lock Screen) {xlock || xdg-screensaver lock || xdg-screensaver activate}
+[exec] (Lock Screen) {~/.local/bin/lock-screen}

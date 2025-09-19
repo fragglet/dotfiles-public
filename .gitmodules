@@ -1,4 +1,13 @@
 [submodule ".oh-my-zsh"]
-	path = .oh-my-zsh
+	path = modules/oh-my-zsh
 	url = https://github.com/ohmyzsh/ohmyzsh.git
 	shallow = true
+[submodule "modules/vim-gitgutter"]
+	path = modules/vim-gitgutter
+	url = https://github.com/airblade/vim-gitgutter
+[submodule "modules/vim-localvimrc"]
+	path = modules/vim-localvimrc
+	url = https://github.com/embear/vim-localvimrc
+[submodule "modules/vim-fugitive"]
+	path = modules/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive

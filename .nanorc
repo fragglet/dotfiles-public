@@ -1,0 +1,63 @@
+## Suppress the title bar and show the filename plus a cursor-position
+## percentage in the space of the status bar.
+set minibar
+
+## Constantly display the cursor position in the status bar or minibar.
+set constantshow
+
+## Use the end of the title bar for some state flags: I = auto-indenting,
+## M = mark, L = hard-wrapping long lines, R = recording, S = soft-wrapping.
+set stateflags
+
+## Display a "scrollbar" on the righthand side of the edit window.
+set indicator
+
+## Scroll the buffer contents per half-screen instead of per line.
+set jumpyscrolling
+
+## Enable mouse support, if available for your system.  When enabled,
+## mouse clicks can be used to place the cursor, set the mark (with a
+## double click), and execute shortcuts.  The mouse will work in the
+## X Window System, and on the console when gpm is running.
+set mouse
+
+## Do regular-expression searches by default.
+## Regular expressions are of the extended type (ERE).
+set regexp
+
+## Use this tab size instead of the default; it must be greater than 0.
+set tabsize 8
+
+## Convert each typed tab to the fitting number of spaces.
+set tabstospaces
+
+## Snip whitespace at the end of lines when justifying or hard-wrapping.
+set trimblanks
+
+## Remember the cursor position in each file for the next editing session.
+set positionlog
+
+## Switch on multiple file buffers (inserting a file will put it into
+## a separate buffer).
+set multibuffer
+
+## Paint the interface elements of nano.  These are examples; there are
+## no colors by default, except for errorcolor and spotlightcolor.
+set titlecolor bold,white,grey
+set promptcolor lightwhite,grey
+set statuscolor bold,white,blue
+set errorcolor bold,white,red
+set spotlightcolor black,lightyellow
+set selectedcolor lightwhite,magenta
+set scrollercolor grey
+set numbercolor cyan
+set keycolor bold,white,grey
+set functioncolor bold,cyan
+
+## === Syntax coloring ===
+
+## If <Tab> should always produce an actual TAB when editing a Makefile:
+extendsyntax makefile tabgives "	"
+
+## If you want to suspend nano with one keystroke (instead of with ^T^Z):
+bind ^Z suspend main

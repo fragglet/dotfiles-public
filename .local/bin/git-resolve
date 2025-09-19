@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+#
+# Workflow script for resolving git merge conflicts.
+
+had_conflicts=false
+resolved_all=true
+
+for filename in $(git ls-files -u | cut -f 2 | sort | uniq); do
+    had_conflicts=true
+
+    if ! ${EDITOR:-vi} "$filename"; then
+        echo "Aborting git-resolve; ${EDITOR:-vi} exited with error"
+        exit 1
+    fi
+    if grep -q "<<<<<<<" "$filename" || grep -q "=======" "$filename" || \
+       grep -q ">>>>>>>" "$filename" || grep -q "|||||||" "$filename"; then
+        echo "$filename still contains conflict markers, not resolving"
+        resolved_all=false
+        continue
+    fi
+
+    git --no-pager diff "$filename"
+    if read -n 1 -p "Mark resolved [y/n]? " && [[ "$REPLY" = "y" ]]; then
+        git add "$filename"
+    else
+        echo "$filename left unresolved."
+        resolved_all=false
+    fi
+    echo
+done
+
+if ! $had_conflicts; then
+    echo "No conflicts to resolve."
+elif $resolved_all; then
+    echo
+    echo "All conflicts have been resolved."
+    echo
+    git status -u none
+fi

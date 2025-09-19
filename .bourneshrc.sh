@@ -6,7 +6,7 @@ alias vi="vim -X"
 export EDITOR=vim
 export PAGER=less
 export NETHACKOPTIONS="color,fruit:garglefruit,pickup_types:?/!$+,DECgraphics"
-PATH="$HOME/.local/bin:/sbin:/usr/sbin:$PATH"
+PATH="$HOME/.local/bin:/sbin:/usr/sbin:$PATH:/usr/games:/usr/local/games"
 
 set -o emacs
 
@@ -53,24 +53,14 @@ fi
 # I always forget.
 alias rescan=rehash
 
-# Prefer emacs for browsing info pages, if installed.
-info() {
-    if [[ $# -eq 0 ]] && which emacsclient >/dev/null; then
-        emacseval "(info)"
-    elif [[ $# -eq 1 ]] && which emacsclient >/dev/null; then
-        emacseval "(info \"$1\")"
-    else
-        command info "$@"
-    fi
+# Minimalist alternative to the info command that works like "man":
+minfo() {
+    info --subnodes -o - "$@" | less
 }
 
 # Connect to existing emacs if there is one running.
 emacs() {
     emacsclient -a "emacs -nw" -c -nw -q "$@"
-}
-
-emacseval() {
-    emacsclient -a "emacs -nw --eval" -c -nw -q -e "$@"
 }
 
 start-ssh-agent() {
@@ -81,11 +71,13 @@ start-ssh-agent() {
 
 export GPG_TTY=$(tty)
 
-# good for SDL over remote X:
-if [[ "$KERNEL" != "Darwin" ]] && [[ "${DISPLAY:-no-x}" != no-x ]]; then
+if [[ "${XDG_SESSION_TYPE:-nil}" = "wayland" ]]; then
+    export SDL_VIDEODRIVER=wayland
+elif [[ "$KERNEL" != "Darwin" ]] && [[ "${DISPLAY:-no-x}" != no-x ]]; then
     export SDL_VIDEODRIVER=x11
 fi
 if [[ "${SSH_CLIENT:-none}" != none ]]; then
+    # good for SDL over remote X:
     export SDL_RENDER_DRIVER=opengl SDL_RENDER_VSYNC=0 SDL_AUDIODRIVER=dummy
 fi
 
@@ -95,6 +87,32 @@ for p in chex-quest doom-registered-1.9 doom-shareware-1.9 ultimate-doom-1.9 \
          strife-registered-1.31 heretic-registered-1.3 hexen-1.1; do
     DOOMWADPATH="$DOOMWADPATH:$HOME/doom/$p"
 done
+
+export ANSIBLE_NOCOWS=1
+
+# Make gzip files / .tar.gz files rsyncable; this also makes backups more
+# recoverable since the state is reset periodically:
+if [[ "$KERNEL" = "Linux" ]]; then
+    export GZIP=--rsyncable
+fi
+
+bazel-dir() {
+    local dir=$PWD
+    local subpart=""
+    while [[ ! -e "$dir/$1" ]]; do
+        if [[ "$dir" = / ]]; then
+            echo "$1 not found" >&2
+            return 1
+        fi
+        subpart=$(basename "$dir")/"$subpart"
+        dir=$(dirname "$dir")
+    done
+    echo "$dir/$1/$subpart"
+}
+
+bb() {
+    bazel-dir bazel-bin
+}
 
 if [[ -e "$HOME/.bourneshrc.local.sh" ]]; then
     . "$HOME/.bourneshrc.local.sh"

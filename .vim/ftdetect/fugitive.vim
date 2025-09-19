@@ -1,0 +1,1 @@
+../../modules/vim-fugitive/ftdetect/fugitive.vim

@@ -1,0 +1,101 @@
+#!/usr/bin/env python3
+#
+# Wrapper around `id3v2` that sets track information based on filename and
+# path. Filenames are expected to be named like:
+#
+#   artist_name/album_name/12_-_track_name.mp3
+
+from glob import glob
+import argparse
+import os
+import os.path
+import re
+import shlex
+import subprocess
+import sys
+
+YEAR_RE = re.compile(r"(\d{4})_(.*)")
+
+special_names = {
+    "manics": "Manic Street Preachers",
+    "nin": "Nine Inch Nails",
+    "nwa": "NWA",
+    "ratm": "Rage Against the Machine",
+    "rem": "R.E.M.",
+    "qotsa": "Queens of the Stone Age",
+    "krs1": "KRS-One",
+}
+
+special_words = {
+    "dr": "Dr.",
+    "pj": "PJ",
+    "mc": "MC",
+    "dj": "DJ",
+}
+
+def normalize(name):
+    special = special_names.get(name)
+    if special:
+        return special
+    words = name.split("_")
+    words = [special_words.get(n, n.title()) for n in words]
+    return " ".join(words)
+
+parser = argparse.ArgumentParser(prog="id3ise",
+                                 description="Set ID3 tags on MP3 files")
+
+parser.add_argument("-n", "--dry-run", action=argparse.BooleanOptionalAction)
+parser.add_argument("-f", "--force", action=argparse.BooleanOptionalAction)
+parser.add_argument("path", nargs="+")
+
+args = parser.parse_args(sys.argv[1:])
+
+files = set()
+
+for arg in args.path:
+    mp3s = glob(arg + "/*.mp3") + glob(arg + "/**/*.mp3")
+    files |= set(mp3s)
+
+for filename in sorted(files):
+
+    # Don't set tag if already set, but we can use -f to overwrite:
+    if not args.force:
+        p = subprocess.run(["id3v2", "-l", filename], stdout=subprocess.PIPE)
+        if b"No ID3 tag" not in p.stdout:
+            print("%s: already tagged" % filename)
+            continue
+
+    parts = filename[:-4].split("/")
+    if len(parts) != 3:
+        print("%s: can't parse path" % filename)
+        continue
+
+    artist, album, basename = parts
+
+    cmd = ["id3v2"]
+
+    # Some album directories have year as the prefix:
+    m = YEAR_RE.match(album)
+    if m:
+        cmd.extend([
+            "-y", m.group(1)
+        ])
+        album = m.group(2)
+
+    trackparts = basename.split("_-_", 1)
+    if len(trackparts) != 2:
+        print("%s: can't parse track filename format" % basename)
+        continue
+
+    tracknum, trackname = trackparts
+
+    cmd.extend([
+        "-a", normalize(artist),
+        "-A", normalize(album),
+        "-t", normalize(trackname),
+        "-T", tracknum,
+        filename
+    ])
+    print(shlex.join(cmd))
+    if not args.dry_run:
+        subprocess.run(cmd)

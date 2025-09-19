@@ -15,7 +15,7 @@ exclude_files() {
 		| grep -v "^./.gitignore" \
 		| grep -v "^./.gitmodules" \
 		| grep -v "swp$" \
-		| grep -v oh-my-zsh
+		| grep -v "^./modules"
 }
 
 # macos? add symlinks from ~/.local into ~/Library directory.
@@ -37,11 +37,11 @@ if [ -d ~/Library ]; then
 fi
 
 chmod go-rwx .ssh
-symlink $PWD/.oh-my-zsh ~/.oh-my-zsh
+symlink $PWD/modules/oh-my-zsh ~/.oh-my-zsh
 git submodule init
 git submodule update
 
-find . -type f | exclude_files | while read filename; do
+find . -type f -or -type l | exclude_files | while read filename; do
 	# Make any mising directories.
 	dir=$(dirname "$filename")
 	mkdir -p "$HOME/$dir"
@@ -57,3 +57,8 @@ done
 
 # gtk 2.0 uses gtk 3.0 bookmarks (should be ok?)
 symlink "$PWD/.config/gtk-3.0/bookmarks" ~/.gtk-bookmarks
+
+# Generate vim help file tags
+if vim --version >/dev/null; then
+	vim -e -c "helptags ALL" -c "exit" >/dev/null
+fi
