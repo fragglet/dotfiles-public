@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+#
+# Script that opens a passwordless VNC connection by (effectively) using ssh
+# for authentication. This takes advantage of the vncviewer -PasswordFile
+# argument, which allows authentication by providing a copy of the VNC
+# password file.
+
+set -euo pipefail
+
+if [[ $# -lt 1 ]]; then
+    echo "Usage: $0 <hostname> [options]"
+    exit 1
+fi
+
+hostname=$1; shift
+
+# Technically this can be done as a one-liner, but if the ssh part fails, we
+# don't want to try opening a VNC connection.
+passwd_file=$(ssh "${hostname%:*}" \
+                  "cat ~/.config/tigervnc/passwd || cat ~/.vnc/passwd")
+exec vncviewer -PasswordFile /dev/stdin "$@" "$hostname" <<<"$passwd_file"

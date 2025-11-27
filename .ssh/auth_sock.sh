@@ -1,3 +1,23 @@
+#
+# ssh auth socks management
+#
+# When logging in with `ssh -A`, a socket is created, the location of which is
+# stored in the `SSH_AUTH_SOCK` environment variable. However, this causes
+# problems with programs like `screen` and `tmux`. if you disconnect and log in
+# again, your screen sessions will point at the old auth socket that no longer
+# exists. This script (should be sourced in `.bashrc` or similar) fixes this.
+#
+# What this does:
+#  * When logging in remotely, the auth socket gets added to a pool of auth
+#    socket links in `~/.ssh/auth_socks/`. The pool is automatically
+#    maintained so that dead links get deleted.
+#  * The `SSH_AUTH_SOCK` variable is pointed at a symlink, `~/.ssh/auth_sock`.
+#  * The link is automatically updated on each login to point to the latest
+#    auth socket, so that we don't try to use older, dead links.
+#  * When logging out, the connection's link is deleted and the symlink
+#    updated if necessary, so that we always try to find a working connection
+#    to send auth requests to.
+#
 
 _update_auth_sock() {
     if ! ls ~/.ssh/auth_socks | grep -q ""; then

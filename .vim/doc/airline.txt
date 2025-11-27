@@ -1,0 +1,1 @@
+../../modules/vim-airline/doc/airline.txt

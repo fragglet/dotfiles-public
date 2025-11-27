@@ -62,5 +62,30 @@ set ve+=onemore
 
 if has("gui_running")
   set lines=40 columns=85
-  set guifont="Fira Code 12"
+  if has("macunix")
+    set guifont=FiraCode-Regular:h11
+  else
+    set guifont=Fira\ Code\ 11
+  endif
+  let g:airline_powerline_fonts=1
 endif
+
+let g:airline_theme='bubblegum'
+" let g:airline_powerline_fonts=1
+
+function! AirlineInit()
+  let g:airline_section_b = airline#section#create(['hunks'])
+  let g:airline_section_x = airline#section#create(['branch'])
+  let g:airline_section_y = airline#section#create(['%p%%'])
+  let g:airline_section_z = airline#section#create(['linenr', 'colnr'])
+  let g:airline_symbols.branch = ''
+  let g:airline_symbols.linenr = ''
+  let g:airline_symbols.colnr = ':'
+endfunction
+
+autocmd User AirlineAfterInit call AirlineInit()
+
+" Assume .tf files are HCL (Terraform) format
+silent! autocmd! filetypedetect BufRead,BufNewFile *.tf
+autocmd BufRead,BufNewFile *.tf,*.hcl,*.tfbackend set filetype=hcl
+autocmd BufRead,BufNewFile .terraformrc,terraform.rc set filetype=hcl

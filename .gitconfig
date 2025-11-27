@@ -1,41 +1,50 @@
 # This is Git's per-user configuration file.
 [user]
-# Please adapt and uncomment the following lines:
-name = Simon Howard
-email = fraggle@soulsphere.org
+	name = Simon Howard
+	email = fraggle@soulsphere.org
+
 [init]
 	defaultBranch = trunk
+
 [diff]
 	colorMovedWS = ignore-all-space
 	colorMoved = true
+
 [oh-my-zsh]
 	hide-dirty = 1
+
 [merge]
 	conflictStyle = diff3
 
 [diff "lesspipe"]
-        textconv = lesspipe.sh
+	textconv = lesspipe.sh
+
 [core]
-        attributesfile = ~/.gitattributes
+	attributesfile = ~/.gitattributes
+
 [alias]
+	amend = commit --amend
+	amendx = commit --amend --no-edit
+	branches = !git-branches
+	cgrep = grep -C5
+	co = checkout
+	diffc = diff --cached
+	fix-url = !git-fix-url
+	fixurl = !git-fix-url
 	grog = log --graph --abbrev-commit --decorate --all --format=format:\"%C(bold blue)%h%C(reset) - %C(bold cyan)%aD%C(dim white) - %an%C(reset) %C(bold green)(%ar)%C(reset)%C(bold yellow)%d%C(reset)%n %C(white)%s%C(reset)\"
-        diffc = diff --cached
-        unstage = restore --staged
-        statusf = status --untracked-files=no
-        logs = log --stat
-        logp = log -p
-        amend = commit --amend
-        amendx = commit --amend --no-edit
-        qcommit = !git-qcommit
-        qamend = !git-qcommit --amend
-        fix-url = !git-fix-url
-        fixurl = !git-fix-url
-        origin = remote show -n origin
-        co = checkout
-        resolve = !git-resolve
+	logp = log -p
+	logs = log --stat
+	origin = remote show -n origin
+	qamend = !git-qcommit --amend
+	qcommit = !git-qcommit
+	resolve = !git-resolve
+	statusf = status --untracked-files=no
+	unstage = restore --staged
 
 [filter "lfs"]
-       clean = git-lfs clean -- %f
-       smudge = git-lfs smudge -- %f
-       process = git-lfs filter-process
-       required = true
+	clean = git-lfs clean -- %f
+	process = git-lfs filter-process
+	required = true
+	smudge = git-lfs smudge -- %f
+
+# vim: set noexpandtab tabstop=8 softtabstop=8 shiftwidth=8:

@@ -1,0 +1,100 @@
+#!/usr/bin/env python3
+#
+# Script to list git branches along with commits on those branches and whether
+# they have been merged yet (relative to the current branch). This is helpful
+# to identify which branches can be safely deleted.
+
+import os
+import shlex
+import sys
+
+MAIN_BRANCH_NAMES = ["main", "trunk", "master"]
+
+class Branch:
+    def __init__(self, name):
+        self.name = name
+        self.commits = list(git_log("..%s" % name))
+        if len(self.commits) > 0:
+            self.latest_date = max(c[1] for c in self.commits)
+        else:
+            self.latest_date = "1970-01-01"
+
+    def identify_merged(self, merged_commits, commits_by_subj):
+        all_merged = True
+        result = {}
+        for c in self.commits:
+            if c[0] in merged_commits:
+                result[c[0]] = "[%s]" % green("merged")
+                continue
+            merged_as = commits_by_subj.get(c[2])
+            if merged_as:
+                result[c[0]] = "[%s as %s]" % (green("merged"), abbrev(merged_as[0]))
+            else:
+                result[c[0]] = "[%s]" % red("unmerged")
+                all_merged = False
+        return all_merged, result
+
+def color(text, color_num):
+    return "\x1b[%dm%s\x1b[0m" % (
+        color_num, text
+    )
+
+def bold(text):
+    return color(text, 1)
+
+def green(text):
+    return color(text, 32)
+
+def red(text):
+    return color(text, 31)
+
+def abbrev(chash):
+    return chash[:8]
+
+def git_log(*args):
+    cmd = ["git", "-P", "log", "--pretty=format:%H %aI %s"] + list(args)
+    for line in os.popen(shlex.join(cmd)).readlines():
+        line = line.rstrip()
+        yield line.split(" ", 2)
+
+def git_branches():
+    cmd = ["git", "-P", "branch"]
+    all_branches = []
+    active_branch = None
+    for line in os.popen(shlex.join(cmd)).readlines():
+        line = line.rstrip()
+        b = Branch(line[2:])
+        all_branches.append(b)
+        if line[0] == '*':
+            active_branch = b
+    return all_branches, active_branch
+
+# Build an index of which commits have been merged (recently):
+merged_commits = set()
+commits_by_subj = {}
+for chash, cdate, subj in git_log("-1000"):
+    merged_commits.add(chash)
+    commits_by_subj[subj] = [chash, cdate]
+
+# Get list of branches. List branches with most recent commits first.
+branches, active_branch = git_branches()
+branches.sort(key=lambda x: x.latest_date, reverse=True)
+
+if active_branch is None or active_branch.name not in MAIN_BRANCH_NAMES:
+    print("%s: This should be run from the main branch, to check merge status." % (
+        red("WARNING"),
+    ), file=sys.stderr)
+
+for b in branches:
+    if b == active_branch:
+        continue
+    all_merged, merged_commits = b.identify_merged(merged_commits, commits_by_subj)
+    print("%s%s" % (
+        bold(b.name),
+        " [%s]" % (green("all merged") if all_merged else red("not merged")),
+    ))
+    for chash, cdate, subj in b.commits:
+        merge_status = merged_commits[chash]
+        print("  - %s %s %s" % (
+            abbrev(chash), subj, merge_status,
+        ))

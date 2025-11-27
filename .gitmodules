@@ -2,12 +2,24 @@
 	path = modules/oh-my-zsh
 	url = https://github.com/ohmyzsh/ohmyzsh.git
 	shallow = true
+	branch = master
 [submodule "modules/vim-gitgutter"]
 	path = modules/vim-gitgutter
 	url = https://github.com/airblade/vim-gitgutter
+	branch = main
 [submodule "modules/vim-localvimrc"]
 	path = modules/vim-localvimrc
 	url = https://github.com/embear/vim-localvimrc
+	branch = main
 [submodule "modules/vim-fugitive"]
 	path = modules/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive
+	branch = master
+[submodule "modules/vim-airline"]
+	path = modules/vim-airline
+	url = https://github.com/vim-airline/vim-airline
+	branch = master
+[submodule "modules/gus-patches"]
+	path = modules/gus-patches
+	url = https://github.com/fragglet/gus-patches
+	branch = trunk

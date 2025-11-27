@@ -8,6 +8,7 @@
 #
 
 import argparse
+import atexit
 import collections
 import hashlib
 import os
@@ -94,7 +95,7 @@ def write_filenames(tagged_filenames):
         mode="w",
         suffix=".txt",
         prefix="irename",
-        delete_on_close=False)
+        delete=False)
 
     indent = max(len(shlex.quote(f)) for f in tagged_filenames.values())
     indent += TAB_SIZE - (indent % TAB_SIZE)
@@ -266,6 +267,8 @@ if len(nonexistent) > 0:
 
 keys = make_file_keys(orig_filenames)
 out = write_filenames(keys)
+
+atexit.register(lambda: os.remove(out.name))
 
 while True:
     ctx = EditContext()

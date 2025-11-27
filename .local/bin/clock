@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+#
+# Clock that continually runs until you press a key. Useful for setting the
+# time on your watch.
+
+while true; do
+    printf "\r%s  " "$(date '+%Y-%m-%d %H:%M:%S.%N')"
+    if read -n 1 -t 0.01 -s; then
+        echo
+        break
+    fi
+done

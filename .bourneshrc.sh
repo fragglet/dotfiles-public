@@ -2,6 +2,7 @@
 
 alias a="tmux -u -CC attach"
 alias vi="vim -X"
+alias cgrep="grep -C5"
 
 export EDITOR=vim
 export PAGER=less

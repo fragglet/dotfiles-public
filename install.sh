@@ -20,8 +20,9 @@ exclude_files() {
 
 # macos? add symlinks from ~/.local into ~/Library directory.
 if [ -d ~/Library ]; then
+	# We have to copy the .ttf files in, symlinks don't work.
 	mkdir -p ~/Library/Fonts
-	symlink ~/Library/Fonts ~/.fonts
+	cp .fonts/*.ttf ~/Library/Fonts
 
 	mkdir -p ~/.local/share ~/.config/gzdoom
 	for d in .local/share/*; do
@@ -37,9 +38,18 @@ if [ -d ~/Library ]; then
 fi
 
 chmod go-rwx .ssh
-symlink $PWD/modules/oh-my-zsh ~/.oh-my-zsh
 git submodule init
 git submodule update
+
+# Fixups for earlier version:
+if [ -d ~/.dosbox/ydrive/ultrasnd/midi ]; then
+    rm -rf ~/.dosbox/ydrive/ultrasnd/midi
+fi
+if [ -d ~/.config/GIMP/3.0/palettes ] && \
+   [ ! -L ~/.config/GIMP/3.0/palettes ]; then
+    mv ~/.config/GIMP/3.0/palettes/* ~/.config/GIMP/2.10/palettes/
+    rmdir ~/.config/GIMP/3.0/palettes
+fi
 
 find . -type f -or -type l | exclude_files | while read filename; do
 	# Make any mising directories.
