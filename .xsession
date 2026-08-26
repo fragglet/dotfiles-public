@@ -2,6 +2,7 @@
 
 mate-power-manager &
 nm-applet &
+pnmixer &
 
 xrdb ~/.Xresources
 
@@ -20,16 +21,13 @@ if [ "${VNCDESKTOP:-not-vnc}" = not-vnc ]; then
 END
 fi
 
-for wm in blackbox fluxbox wmaker uxterm xterm; do
+for wm in fluxbox blackbox wmaker uxterm xterm; do
     if $wm -version; then
         if [ "$wm" = blackbox ]; then
             bbkeys &
         else
             wmclock &
         fi
-        wmacpi -r -s 2 &
-        wmapm &
-        wmcpuload &
         (sleep 5; bbpager) &
         exec $wm
     fi

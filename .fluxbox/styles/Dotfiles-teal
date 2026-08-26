@@ -1,3 +1,4 @@
+! transformed with: fbthemecolor h+0.9 s-0.1
 *button.pressed: sunken solid
 *button.pressed.backgroundColor: darkgrey
 *button: parentrelative
@@ -11,11 +12,11 @@ menu.bullet: triangle
 menu.bullet.position: right
 
 menu.title: raised border
-menu.title.color: rgb:30/40/50
-menu.title.font: lucidasans-10:bold
+menu.title.color: rgb:38/50/4d
+menu.title.font: lucidasans-12:bold
 menu.title.textColor: rgb:ff/ff/ff
 menu.title.justify: center
-menu.titleHeight: 20
+menu.titleHeight: 25
 menu.itemHeight: 20
 
 menu.frame: raised border
@@ -26,67 +27,67 @@ menu.frame.color: rgb:cc/cc/cc
 menu.frame.justify: left
 
 menu.hilite:                         Flat
-menu.hilite.color:                   rgb:30/40/50
-menu.hilite.textColor:               rgb:FF/FF/FF
+menu.hilite.color:                   rgb:38/50/4d
+menu.hilite.textColor:               rgb:ff/ff/ff
 
 background: solid
-background.color: rgb:47/60/7a
+background.color: rgb:53/7a/76
 
 slit.appearance: raised solid
-slit*backgroundColor: rgb:60/78/92
+slit*backgroundColor: rgb:6e/92/8f
 slit.marginWidth: 2
 
 toolbar: Raised
-toolbar.height: 22
+toolbar.height: 28
 toolbar.workspace: Flat
-toolbar.workspace.borderColor: rgb:60/78/92
+toolbar.workspace.borderColor: rgb:6e/92/8f
 toolbar.workspace.borderWidth: 10
 toolbar.iconbar.focused: Raised
-toolbar.iconbar.focused.color: rgb:30/40/50
+toolbar.iconbar.focused.color: rgb:38/50/4d
 toolbar.iconbar.focused.textColor: white
 toolbar.iconbar.unfocused: Raised
 toolbar.iconbar.empty: Raised
 toolbar.clock: Raised
 toolbar.borderWidth: 1
 toolbar.justify: center
-toolbar*color: rgb:60/78/92
+toolbar*color: rgb:6e/92/8f
 toolbar*textColor: black
 toolbar*button: Raised
-toolbar*button.color: rgb:48/60/78
-toolbar.clock.color: rgb:68/78/92
+toolbar*button.color: rgb:54/78/74
+toolbar.clock.color: rgb:76/91/92
 toolbar.shaped: true
 
 window.label.marginWidth: 1
 
 window.title.focus: Raised
-window.title.focus.color: rgb:30/40/50
-window.label.focus.font: lucidasans-10:bold
+window.title.focus.color: rgb:38/50/4d
+window.label.focus.font: lucidasans-12:bold
 window.label.focus: Flat
-window.label.focus.color: rgb:30/40/50
+window.label.focus.color: rgb:38/50/4d
 window.label.focus.textColor: white
 window.button.focus.picColor: white
 window.button.focus: Flat
-window.button.focus.color: rgb:30/40/50
+window.button.focus.color: rgb:38/50/4d
 window.handle.focus: raised solid border
-window.handle.focus.color: rgb:30/40/50
+window.handle.focus.color: rgb:38/50/4d
 window.grip.focus: raised solid border
-window.grip.focus.color: rgb:50/60/70
-window.title.height: 20
+window.grip.focus.color: rgb:5b/70/6d
+window.title.height: 30
 
 window.title.unfocus: Raised
-window.title.unfocus.color: rgb:60/78/92
+window.title.unfocus.color: rgb:6e/92/8f
 window.button.unfocus: parentrelative
 window.button.unfocus.foregroundColor: rgb:22/22/22
 window.handle.unfocus: raised solid border
-window.handle.unfocus.backgroundColor: rgb:60/78/92
+window.handle.unfocus.backgroundColor: rgb:6e/92/8f
 window.grip.unfocus: raised solid border
-window.grip.unfocus.backgroundColor: rgb:60/78/92
+window.grip.unfocus.backgroundColor: rgb:6e/92/8f
 window.label.unfocus: parentrelative
 window.label.unfocus.textColor: rgb:22/22/22
 window.button.unfocus.picColor: rgb:22/22/22
 
 window*justify: center
-window.handleWidth: 6
+window.handleWidth: 8
 
-*font: lucidasans-10
+*font: lucidasans-12
 window.bevelWidth: 2

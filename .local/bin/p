@@ -3,8 +3,8 @@
 set -eu
 set -o pipefail
 
-# TODO: dnf, apk, guix, xbps etc.
-PACKAGE_MANAGERS="apt pkgin pkg pkg_add pkgman brew"
+# TODO: apk, guix, xbps etc.
+PACKAGE_MANAGERS="apt pkgin pkg pkg_add pkgman brew dnf"
 
 have_command() {
     which "$1" >/dev/null 2>&1
@@ -160,10 +160,30 @@ brew::remove() {
     _ brew uninstall "$@"
 }
 brew::list() {
-    _ brew list "$@"
+    _ brew list -v "$@"
 }
 brew::contents() {
     _ brew ls --verbose "$@"
+}
+
+# dnf (Red Hat / Fedora)
+dnf::search() {
+    _ dnf search "$@"
+}
+dnf::info() {
+    _ dnf info "$@"
+}
+dnf::add() {
+    _sudo dnf install "$@"
+}
+dnf::remove() {
+    _sudo dnf remove "$@"
+}
+dnf::list() {
+    _ dnf list installed "$@"
+}
+dnf::contents() {
+    _ dnf repoquery -l "$@"
 }
 
 USAGE="

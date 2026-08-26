@@ -96,7 +96,11 @@ case "$simple_filename" in
         tmpoutput xxd < "$filename"
         ;;
     *.cap)
-        tmpoutput tcpdump -nvvvxxx -r "$filename"
+        if tshark --version >/dev/null 2>&1; then
+            tmpoutput tshark -x -V -r "$filename"
+        else
+            tmpoutput tcpdump -nvvvxxx -r "$filename"
+        fi
         ;;
     *.iso)
         isoinfo=$(isoinfo -d -i "$filename")
@@ -119,7 +123,13 @@ case "$simple_filename" in
         fi
         ;;
     *.[ao]|*.obj|core|core.*|*.core)
-        (readelf -h -l -g "$filename"; objdump -S "$filename") | tmpoutput cat
+        # No readelf on macOS:
+        if readelf --version >/dev/null 2>&1; then
+            readelf -h -l -g "$filename"
+        fi
+        if objdump --version >/dev/null 2>&1; then
+            objdump -S "$filename"
+        fi
         ;;
     *.deb)
         tmpoutput dpkg -c "$filename"
@@ -160,12 +170,18 @@ case "$simple_filename" in
     *.sqlite|*.sqlite3)
         tmpoutput sqlite3 -readonly "$filename" .dump
         ;;
+    *.tdb)
+        tmpoutput tdbdump "$filename"
+        ;;
     *.plist)
         if file "$filename" | grep -qi binary; then
             tmpoutput plutil -p "$filename"
         else
             exit 1  # Might be text format plist
         fi
+        ;;
+    *.wasm)
+        tmpoutput wasm-tools dump "$filename"
         ;;
     *)
         if [ -d "$filename" ]; then

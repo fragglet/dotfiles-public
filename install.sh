@@ -37,6 +37,9 @@ if [ -d ~/Library ]; then
 	       "$HOME/Library/Application Support/GIMP"
 fi
 
+mkdir -p ~/.gnupg
+chmod go-rwx ~/.gnupg
+
 chmod go-rwx .ssh
 git submodule init
 git submodule update

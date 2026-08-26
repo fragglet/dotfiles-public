@@ -6,6 +6,12 @@
 [init]
 	defaultBranch = trunk
 
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+
+[url "git@bitbucket.org:"]
+	insteadOf = https://bitbucket.org/
+
 [diff]
 	colorMovedWS = ignore-all-space
 	colorMoved = true
@@ -21,6 +27,7 @@
 
 [core]
 	attributesfile = ~/.gitattributes
+	hooksPath = ~/.git-hooks
 
 [alias]
 	amend = commit --amend
@@ -35,6 +42,7 @@
 	logp = log -p
 	logs = log --stat
 	origin = remote show -n origin
+	pushf = push --force-with-lease
 	qamend = !git-qcommit --amend
 	qcommit = !git-qcommit
 	resolve = !git-resolve
@@ -46,5 +54,9 @@
 	process = git-lfs filter-process
 	required = true
 	smudge = git-lfs smudge -- %f
+
+[filter "sort"]
+	smudge = sort
+	clean = sort
 
 # vim: set noexpandtab tabstop=8 softtabstop=8 shiftwidth=8:

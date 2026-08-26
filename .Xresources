@@ -192,5 +192,8 @@ lines           1,-1,-1,-1,-1,1;\
 foreground      gray90;\
 lines           -1,0,0,0,0,-1
 
+UXTerm*vt100*geometry: 80x50
+XTerm*vt100*geometry: 80x50
+
 ! vim: ai:si:et:ts=4:sw=4:ft=xdefaults:
 

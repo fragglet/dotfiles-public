@@ -6,7 +6,7 @@ alias cgrep="grep -C5"
 
 export EDITOR=vim
 export PAGER=less
-export NETHACKOPTIONS="color,fruit:garglefruit,pickup_types:?/!$+,DECgraphics"
+export NETHACKOPTIONS="color,fruit:garglefruit,autopickup,pickup_types:?/!$+,DECgraphics,!tutorial"
 PATH="$HOME/.local/bin:/sbin:/usr/sbin:$PATH:/usr/games:/usr/local/games"
 
 set -o emacs

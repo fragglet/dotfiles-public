@@ -15,7 +15,7 @@ menu.title.color: rgb:30/40/50
 menu.title.font: lucidasans-12:bold
 menu.title.textColor: rgb:ff/ff/ff
 menu.title.justify: center
-menu.titleHeight: 20
+menu.titleHeight: 25
 menu.itemHeight: 20
 
 menu.frame: raised border
@@ -71,7 +71,7 @@ window.handle.focus: raised solid border
 window.handle.focus.color: rgb:30/40/50
 window.grip.focus: raised solid border
 window.grip.focus.color: rgb:50/60/70
-window.title.height: 25
+window.title.height: 30
 
 window.title.unfocus: Raised
 window.title.unfocus.color: rgb:60/78/92
@@ -86,7 +86,7 @@ window.label.unfocus.textColor: rgb:22/22/22
 window.button.unfocus.picColor: rgb:22/22/22
 
 window*justify: center
-window.handleWidth: 6
+window.handleWidth: 8
 
 *font: lucidasans-12
 window.bevelWidth: 2

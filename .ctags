@@ -1,0 +1,2 @@
+--exclude=bazel-*
+--exclude=.venv

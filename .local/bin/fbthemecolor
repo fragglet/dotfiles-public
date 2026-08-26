@@ -1,0 +1,43 @@
+#!/usr/bin/env python3
+#
+# Script that processes a fluxbox theme file and transforms the colors
+
+import colorsys
+import os
+import re
+import sys
+
+RGB_RE = re.compile(r"rgb:(\w\w)/(\w\w)/(\w\w)")
+
+def usage():
+    print("%s [h+num|s+num|v+num] < oldtheme > newtheme" % sys.argv[0])
+    sys.exit(1)
+
+h_adjust = 0
+s_adjust = 0
+v_adjust = 0
+
+for opt in sys.argv[1:]:
+    if opt[0] == 'h':
+        h_adjust += float(opt[1:])
+    elif opt[0] == 's':
+        s_adjust += float(opt[1:])
+    elif opt[0] == 'v':
+        v_adjust += float(opt[1:])
+    else:
+        usage()
+
+def adjust_rgb(m):
+    r, g, b = m.groups()
+    r, g, b = int(r, 16), int(g, 16), int(b, 16)
+    h, s, v = colorsys.rgb_to_hsv(r, g, b)
+    h = (h + h_adjust) % 1.0
+    s = min(max(s + s_adjust, 0), 1.0)
+    v = min(max(v + v_adjust, 0), 255)
+    r, g, b = colorsys.hsv_to_rgb(h, s, v)
+    return "rgb:%02x/%02x/%02x" % (int(r), int(g), int(b))
+
+print("! transformed with: fbthemecolor %s" % (" ".join(sys.argv[1:])))
+for line in sys.stdin:
+    line = RGB_RE.sub(adjust_rgb, line)
+    sys.stdout.write(line)

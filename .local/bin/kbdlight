@@ -1,0 +1,18 @@
+#!/bin/sh
+#
+# Script to turn Thinkpad keyboard backlight on/off
+
+KBD_SYSFILE=/sys/class/leds/tpacpi::kbd_backlight/brightness
+
+case "$1" in
+    on)
+        echo 100 | sudo tee $KBD_SYSFILE >/dev/null
+        ;;
+    off)
+        echo 0 | sudo tee $KBD_SYSFILE >/dev/null
+        ;;
+    *)
+        echo "Usage: $0 [on|off]"
+        exit 1
+        ;;
+esac

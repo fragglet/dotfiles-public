@@ -1,0 +1,93 @@
+! transformed with: fbthemecolor s-1.0 v+60
+*button.pressed: sunken solid
+*button.pressed.backgroundColor: darkgrey
+*button: parentrelative
+*button.foregroundColor: black
+
+*borderColor: black
+*borderWidth: 1
+*marginWidth: 2
+
+menu.bullet: triangle
+menu.bullet.position: right
+
+menu.title: raised border
+menu.title.color: rgb:8c/8c/8c
+menu.title.font: lucidasans-12:bold
+menu.title.textColor: rgb:ff/ff/ff
+menu.title.justify: center
+menu.titleHeight: 25
+menu.itemHeight: 20
+
+menu.frame: raised border
+menu.frame.textColor: black
+menu.frame.color: rgb:ff/ff/ff
+!menu.frame.foregroundColor: grey40
+!menu.frame.disabledColor: darkgrey
+menu.frame.justify: left
+
+menu.hilite:                         Flat
+menu.hilite.color:                   rgb:8c/8c/8c
+menu.hilite.textColor:               rgb:ff/ff/ff
+
+background: solid
+background.color: rgb:b6/b6/b6
+
+slit.appearance: raised solid
+slit*backgroundColor: rgb:ce/ce/ce
+slit.marginWidth: 2
+
+toolbar: Raised
+toolbar.height: 28
+toolbar.workspace: Flat
+toolbar.workspace.borderColor: rgb:ce/ce/ce
+toolbar.workspace.borderWidth: 10
+toolbar.iconbar.focused: Raised
+toolbar.iconbar.focused.color: rgb:8c/8c/8c
+toolbar.iconbar.focused.textColor: white
+toolbar.iconbar.unfocused: Raised
+toolbar.iconbar.empty: Raised
+toolbar.clock: Raised
+toolbar.borderWidth: 1
+toolbar.justify: center
+toolbar*color: rgb:ce/ce/ce
+toolbar*textColor: black
+toolbar*button: Raised
+toolbar*button.color: rgb:b4/b4/b4
+toolbar.clock.color: rgb:ce/ce/ce
+toolbar.shaped: true
+
+window.label.marginWidth: 1
+
+window.title.focus: Raised
+window.title.focus.color: rgb:8c/8c/8c
+window.label.focus.font: lucidasans-12:bold
+window.label.focus: Flat
+window.label.focus.color: rgb:8c/8c/8c
+window.label.focus.textColor: white
+window.button.focus.picColor: white
+window.button.focus: Flat
+window.button.focus.color: rgb:8c/8c/8c
+window.handle.focus: raised solid border
+window.handle.focus.color: rgb:8c/8c/8c
+window.grip.focus: raised solid border
+window.grip.focus.color: rgb:ac/ac/ac
+window.title.height: 30
+
+window.title.unfocus: Raised
+window.title.unfocus.color: rgb:ce/ce/ce
+window.button.unfocus: parentrelative
+window.button.unfocus.foregroundColor: rgb:5e/5e/5e
+window.handle.unfocus: raised solid border
+window.handle.unfocus.backgroundColor: rgb:ce/ce/ce
+window.grip.unfocus: raised solid border
+window.grip.unfocus.backgroundColor: rgb:ce/ce/ce
+window.label.unfocus: parentrelative
+window.label.unfocus.textColor: rgb:5e/5e/5e
+window.button.unfocus.picColor: rgb:5e/5e/5e
+
+window*justify: center
+window.handleWidth: 8
+
+*font: lucidasans-12
+window.bevelWidth: 2

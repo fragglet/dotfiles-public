@@ -41,8 +41,6 @@
 *.bin  diff=lesspipe
 *.cap  diff=lesspipe
 *.iso  diff=lesspipe
-*.obj  diff=lesspipe
-*.core  diff=lesspipe
 *.deb  diff=lesspipe
 *.mp3  diff=lesspipe
 *.flac  diff=lesspipe
@@ -55,3 +53,5 @@
 *.ps  diff=lesspipe
 *.pdf  diff=lesspipe
 *.rtf diff=lesspipe
+.blackboxrc filter=sort
+.fluxbox/init filter=sort
